@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 232" role="img" aria-label="Hunger Warriors">
+  <!-- Recreated from the Hunger Warriors logo. Replace with the original artwork file when available. -->
+  <path d="M100 10 L186 44 V122 C186 172 150 204 100 222 C50 204 14 172 14 122 V44 Z" fill="#fff" stroke="#0F2B5B" stroke-width="11" stroke-linejoin="round"/>
+  <path d="M52 104 C52 76 74 60 100 60 C126 60 148 76 148 104 Z" fill="#EE7F2D"/>
+  <g fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round">
+    <path d="M84 66 C92 76 80 86 88 98"/>
+    <path d="M100 63 C108 74 96 85 104 98"/>
+    <path d="M116 66 C124 76 112 86 120 98"/>
+  </g>
+  <path d="M44 112 H156 C154 140 132 160 100 162 C68 160 46 140 44 112 Z" fill="#5C8A4E"/>
+  <g fill="#0F2B5B">
+    <path d="M97 202 C83 196 62 182 50 166 C40 152 33 135 33 116 C33 109 42 108 43 115 C45 130 50 144 60 155 C70 166 84 173 97 177 Z"/>
+    <path transform="translate(200 0) scale(-1 1)" d="M97 202 C83 196 62 182 50 166 C40 152 33 135 33 116 C33 109 42 108 43 115 C45 130 50 144 60 155 C70 166 84 173 97 177 Z"/>
+  </g>
+</svg>

@@ -1,0 +1,342 @@
+{
+  "_howToEdit": "All website text lives in this file. Change the words between the quotes, save, and refresh the page. Wrap a word in *asterisks* inside a heading to make it orange and italic. Keep the commas and quotes exactly as they are. Dates are written YYYY-MM-DD.",
+
+  "site": {
+    "name": "Hunger Warriors",
+    "tagline": "Food for All",
+    "hashtag": "#FoodForAll",
+    "city": "Kolkata, West Bengal",
+    "foundedYear": 2019
+  },
+
+  "contact": {
+    "phone": "+91 98311 75828",
+    "whatsappNumber": "919831175828",
+    "whatsappGreeting": "Hi Hunger Warriors! I'd like to know more about your Sunday drives.",
+    "email": "foodforall@hungerwarriors.com",
+    "address": "Kolkata, West Bengal, India",
+    "mapSearch": "Kolkata, West Bengal",
+    "eyebrow": "Get in touch",
+    "heading": "Say *hello*",
+    "intro": "Have a question, an idea for a partnership, or know a community that needs us? Write to us. A Warrior will get back to you, usually within a day.",
+    "instagram": "",
+    "facebook": "",
+    "youtube": ""
+  },
+
+  "hero": {
+    "headline": "No one should go to sleep *hungry.*",
+    "intro": "Every Sunday, our volunteers cook, pack and hand out food to people in need across Kolkata. When disaster strikes, we take relief wherever it's needed most.",
+    "image": "assets/img/team-group-photo.jpg",
+    "imageAlt": "The Hunger Warriors team in matching teal shirts, gathered together after a drive",
+    "primaryButton": "Join a Sunday drive",
+    "secondaryButton": "Donate"
+  },
+
+  "floatingButtons": {
+    "join": "Join a drive",
+    "donate": "Donate"
+  },
+
+  "impact": [
+    { "number": 85000, "suffix": "+", "label": "Meals served" },
+    { "number": 260, "suffix": "+", "label": "Sunday drives" },
+    { "number": 24, "suffix": "", "label": "Relief drives" },
+    { "number": 150, "suffix": "+", "label": "Volunteers" }
+  ],
+
+  "about": {
+    "eyebrow": "Our story",
+    "heading": "Ordinary people. *Extraordinary Sundays.*",
+    "story": [
+      "Hunger Warriors began in 2019 with a handful of friends in Kolkata who couldn't look away from the hunger on their own streets. One Sunday they cooked a meal and handed it out. The next Sunday, they did it again.",
+      "Today we're a family of more than 150 volunteers of every age and background. We still turn up every Sunday, rain or shine, and when floods or cyclones hit Bengal we load up and go."
+    ],
+    "mission": "To fight hunger in Kolkata and across West Bengal by getting nutritious food and essentials to people who need them, reliably, with dignity, every single week.",
+    "vision": "A Bengal where no child, elder or family goes to sleep hungry, and where feeding a neighbour is everyone's responsibility.",
+    "image": "assets/img/volunteers-smiling.jpg",
+    "imageAlt": "Smiling Hunger Warriors volunteers with water and supplies during a relief drive"
+  },
+
+  "work": {
+    "eyebrow": "What we do",
+    "heading": "Two ways we *show up*",
+    "items": [
+      {
+        "label": "Every Sunday",
+        "title": "Sunday food drives",
+        "text": "Every week without fail, we serve hot meals, fruit and snacks to people living on the streets, outside hospitals and in the city's poorest neighbourhoods.",
+        "image": "assets/img/kyd-street-serving.jpg",
+        "imageAlt": "Volunteers serving hot food on Kyd Street"
+      },
+      {
+        "label": "When disaster strikes",
+        "title": "Relief drives",
+        "text": "After cyclones and floods we take ration kits, drinking water and supplies to the worst-hit villages, even when that means going by boat.",
+        "image": "assets/img/cyclone-relief-kits-water.jpg",
+        "imageAlt": "Volunteers handing out ration kits and water after a cyclone"
+      }
+    ]
+  },
+
+  "upcoming": {
+    "eyebrow": "On the horizon",
+    "heading": "Where we're *headed next*",
+    "intro": "Sundays are a promise we keep every week. Relief drives come together at short notice, whenever a community needs us most. Pick a date and walk with us.",
+    "regular": {
+      "title": "Every Sunday",
+      "time": "8:00 AM",
+      "meetingPoint": "Park Circus Seven Point Crossing",
+      "bring": "Comfortable clothes, a water bottle and a big heart"
+    },
+    "drives": [
+      {
+        "date": "2026-10-04",
+        "time": "8:00 AM",
+        "type": "sunday",
+        "title": "Sunday Food Drive",
+        "location": "Sealdah Station area",
+        "note": "Hot meals and water for families living around the station."
+      },
+      {
+        "date": "2026-10-11",
+        "time": "8:00 AM",
+        "type": "sunday",
+        "title": "Sunday Food Drive",
+        "location": "SSKM Hospital, Bhowanipore",
+        "note": "Snacks, fruit and water for patients' families waiting outside."
+      },
+      {
+        "date": "2026-10-18",
+        "time": "8:00 AM",
+        "type": "sunday",
+        "title": "Sunday Food Drive",
+        "location": "Zakaria Street",
+        "note": "Hot meals for people living on the street."
+      },
+      {
+        "date": "2026-10-25",
+        "time": "6:00 AM",
+        "type": "relief",
+        "title": "Flood Relief Drive",
+        "location": "Gosaba, Sundarbans",
+        "note": "Collecting rice, dal, tarpaulin sheets and drinking water now. Donate supplies or join the team."
+      }
+    ]
+  },
+
+  "pastDrives": {
+    "eyebrow": "The archives",
+    "heading": "Our *legacy*",
+    "intro": "Every Sunday leaves a story behind. These are some of ours: the streets we've walked, the villages we've reached, and the families who welcomed us.",
+    "showAllButton": "Open the full archive",
+    "showFirst": 4,
+    "drives": [
+      {
+        "date": "2026-09-27",
+        "type": "sunday",
+        "title": "Snacks & fruit outside SSKM Hospital",
+        "location": "Bhowanipore, Kolkata",
+        "summary": "Families of patients often wait outside the hospital for days. We handed out biscuits, bananas and water to everyone at the gate.",
+        "stats": [
+          { "value": "450", "label": "people served" },
+          { "value": "22", "label": "volunteers" }
+        ],
+        "photos": [
+          { "src": "assets/img/sskm-hospital-snacks.jpg", "alt": "Volunteers handing out snacks at the SSKM Hospital gate" },
+          { "src": "assets/img/sskm-hospital-boxes.jpg", "alt": "Boxes of biscuits being opened on scooters" },
+          { "src": "assets/img/sskm-hospital-bananas.jpg", "alt": "Bananas being handed out beside a car outside the hospital" }
+        ]
+      },
+      {
+        "date": "2026-09-20",
+        "type": "sunday",
+        "title": "Fruit & snacks at Kalighat",
+        "location": "Kalighat, Kolkata",
+        "summary": "A morning drive on the lanes of Kalighat with bananas, biscuits and packed snacks for families and children.",
+        "stats": [
+          { "value": "300", "label": "people served" },
+          { "value": "15", "label": "volunteers" }
+        ],
+        "photos": [
+          { "src": "assets/img/kalighat-fruit-snacks.jpg", "alt": "Volunteers handing out fruit and snacks in Kalighat" },
+          { "src": "assets/img/kalighat-distribution.jpg", "alt": "People gathered for fruit beside a parked car" }
+        ]
+      },
+      {
+        "date": "2026-09-13",
+        "type": "sunday",
+        "title": "Hot meals on Zakaria Street",
+        "location": "Zakaria Street, Central Kolkata",
+        "summary": "Freshly cooked veg biryani, packed into boxes that morning and served to people living on the street.",
+        "stats": [
+          { "value": "600", "label": "meals" },
+          { "value": "20", "label": "volunteers" }
+        ],
+        "photos": [
+          { "src": "assets/img/zakaria-street-meals.jpg", "alt": "Many hands reaching for meal boxes on Zakaria Street" },
+          { "src": "assets/img/zakaria-street-hands.jpg", "alt": "Volunteers handing out food boxes" },
+          { "src": "assets/img/meal-boxes-packed.jpg", "alt": "Rows of packed meal boxes" },
+          { "src": "assets/img/veg-biryani-box.jpg", "alt": "A box of freshly cooked veg biryani" }
+        ]
+      },
+      {
+        "date": "2026-08-23",
+        "type": "relief",
+        "title": "Sundarbans relief by boat",
+        "location": "Pakhirala, Gosaba · South 24 Parganas",
+        "summary": "Villages in the Sundarbans can only be reached by river. We loaded ration kits onto the MB Shardul and handed them over family by family along the embankment.",
+        "stats": [
+          { "value": "350", "label": "families" },
+          { "value": "350", "label": "ration kits" },
+          { "value": "40", "label": "volunteers" }
+        ],
+        "photos": [
+          { "src": "assets/img/sundarbans-villagers-queue.jpg", "alt": "Villagers queueing beside the relief boat" },
+          { "src": "assets/img/team-group-photo.jpg", "alt": "The team together on the relief trip" },
+          { "src": "assets/img/sundarbans-boat-mb-shardul.jpg", "alt": "The MB Shardul boat carrying supplies" },
+          { "src": "assets/img/sundarbans-ration-kit.jpg", "alt": "A ration kit handed to a woman" },
+          { "src": "assets/img/sundarbans-kit-handover.jpg", "alt": "A volunteer handing over a kit from the boat" },
+          { "src": "assets/img/sundarbans-crowd-waiting.jpg", "alt": "Families waiting as supplies are unloaded" },
+          { "src": "assets/img/sundarbans-young-volunteer.jpg", "alt": "The youngest volunteer helping hand out supplies" },
+          { "src": "assets/img/sundarbans-team-ferry.jpg", "alt": "Volunteers in raincoats on the ferry" },
+          { "src": "assets/img/sundarbans-boat-handover.jpg", "alt": "A kit handed over from the boat deck" },
+          { "src": "assets/img/sundarbans-kit-young-man.jpg", "alt": "A volunteer handing a kit to a young man" },
+          { "src": "assets/img/sundarbans-boat-deck.jpg", "alt": "Volunteers on the boat deck organising supplies" },
+          { "src": "assets/img/relief-boat-volunteer.jpg", "alt": "A volunteer in the rain beside a loaded boat" },
+          { "src": "assets/img/sundarbans-team-pondside.jpg", "alt": "The team resting by a pond in Gosaba" }
+        ]
+      },
+      {
+        "date": "2026-08-09",
+        "type": "sunday",
+        "title": "Meals on Kyd Street",
+        "location": "Kyd Street, Park Street area",
+        "summary": "A long line formed before we'd even set up. Bowls of hot food for everyone who came, adults and children alike.",
+        "stats": [
+          { "value": "500", "label": "meals" },
+          { "value": "18", "label": "volunteers" }
+        ],
+        "photos": [
+          { "src": "assets/img/kyd-street-queue.jpg", "alt": "A queue of people waiting for food on Kyd Street" },
+          { "src": "assets/img/kyd-street-serving.jpg", "alt": "Volunteers serving food at a table" },
+          { "src": "assets/img/kyd-street-bowls.jpg", "alt": "Volunteers filling bowls with food" },
+          { "src": "assets/img/kyd-street-waiting.jpg", "alt": "People waiting along the pavement" }
+        ]
+      },
+      {
+        "date": "2026-07-26",
+        "type": "sunday",
+        "title": "Meal packets across the city",
+        "location": "Various locations, Kolkata",
+        "summary": "Volunteers on scooters took packed meals to people sleeping on pavements and at roadside settlements.",
+        "stats": [
+          { "value": "400", "label": "meal packets" },
+          { "value": "12", "label": "volunteers" }
+        ],
+        "photos": [
+          { "src": "assets/img/street-meal-handover.jpg", "alt": "A volunteer handing a meal packet to a man" },
+          { "src": "assets/img/meal-packets-car.jpg", "alt": "A car boot full of packed meals" },
+          { "src": "assets/img/ration-kits-packed.jpg", "alt": "Packed ration kits ready to go" }
+        ]
+      },
+      {
+        "date": "2026-06-14",
+        "type": "relief",
+        "title": "Cyclone relief in South 24 Parganas",
+        "location": "South 24 Parganas",
+        "summary": "The cyclone flattened mud homes and flooded fields. We reached the worst-hit villages with ration kits, drinking water and snacks for the children.",
+        "stats": [
+          { "value": "500", "label": "families" },
+          { "value": "3,000", "label": "water bottles" },
+          { "value": "35", "label": "volunteers" }
+        ],
+        "photos": [
+          { "src": "assets/img/cyclone-relief-banner.jpg", "alt": "Volunteers handing out water under the Hunger Warriors banner" },
+          { "src": "assets/img/cyclone-damaged-house.jpg", "alt": "A house destroyed by the cyclone" },
+          { "src": "assets/img/cyclone-relief-kits-water.jpg", "alt": "Ration kits and water being handed out" },
+          { "src": "assets/img/cyclone-relief-kits-pile.jpg", "alt": "A pile of ration kits beside a flooded field" },
+          { "src": "assets/img/cyclone-relief-children-snacks.jpg", "alt": "Children receiving snacks from volunteers" },
+          { "src": "assets/img/cyclone-relief-water-bottles.jpg", "alt": "A volunteer handing a water bottle to a woman" },
+          { "src": "assets/img/cyclone-relief-riverside.jpg", "alt": "Relief handed over beside the water" },
+          { "src": "assets/img/cyclone-damaged-hut.jpg", "alt": "A damaged hut after the cyclone" },
+          { "src": "assets/img/cyclone-relief-handover.jpg", "alt": "Volunteers handing over kits and water" },
+          { "src": "assets/img/cyclone-relief-supplies.jpg", "alt": "Relief supplies laid out for distribution" },
+          { "src": "assets/img/cyclone-relief-embankment.jpg", "alt": "Relief handed out along the embankment" }
+        ]
+      }
+    ]
+  },
+
+  "gallery": {
+    "eyebrow": "Gallery",
+    "heading": "Moments that *stay with us*",
+    "intro": "Every photo here is a Sunday when someone didn't go hungry. Walked with us? Share your moments with #FoodForAll.",
+    "highlightsHeading": "Highlights",
+    "albumsHeading": "Albums from our *drives*",
+    "photos": [
+      { "src": "assets/img/cyclone-relief-banner.jpg", "alt": "Volunteers handing out water under the Hunger Warriors banner" },
+      { "src": "assets/img/kyd-street-queue.jpg", "alt": "A queue for food on Kyd Street" },
+      { "src": "assets/img/sundarbans-villagers-queue.jpg", "alt": "Villagers queueing beside the relief boat" },
+      { "src": "assets/img/sundarbans-kit-handover.jpg", "alt": "A volunteer handing over a ration kit" },
+      { "src": "assets/img/cyclone-relief-children-snacks.jpg", "alt": "Children receiving snacks" },
+      { "src": "assets/img/zakaria-street-meals.jpg", "alt": "Hands reaching for meal boxes" },
+      { "src": "assets/img/veg-biryani-box.jpg", "alt": "Freshly cooked veg biryani" },
+      { "src": "assets/img/relief-boat-loading.jpg", "alt": "Loading relief supplies onto a boat" },
+      { "src": "assets/img/sskm-hospital-snacks.jpg", "alt": "Snacks at the SSKM Hospital gate" },
+      { "src": "assets/img/volunteers-tea-break.jpg", "alt": "Volunteers on a tea break" },
+      { "src": "assets/img/sundarbans-team-lunch.jpg", "alt": "The team sharing lunch after a drive" },
+      { "src": "assets/img/cyclone-damaged-hut.jpg", "alt": "A hut damaged by the cyclone" }
+    ]
+  },
+
+  "involved": {
+    "eyebrow": "Join the movement",
+    "heading": "Become a *Hunger Warrior*",
+    "intro": "No experience needed, just a few hours on a Sunday and a heart that shows up. Fill this in and WhatsApp will open with your details ready to send.",
+    "ways": [
+      { "title": "Volunteer", "text": "Cook, pack, drive or serve on a Sunday. Bring friends or your college group." },
+      { "title": "Donate supplies", "text": "Rice, dal, oil, packaged food, blankets and clothes. We can arrange a pickup." },
+      { "title": "Partner with us", "text": "Restaurants, businesses and housing societies can sponsor a drive." }
+    ],
+    "formOptions": [
+      "Volunteer on Sundays",
+      "Help with relief drives",
+      "Donate food or supplies",
+      "Partner / sponsor a drive",
+      "Something else"
+    ]
+  },
+
+  "donate": {
+    "eyebrow": "Give",
+    "heading": "Turn kindness into *a full plate.*",
+    "intro": "We're run entirely by volunteers, so every rupee you give becomes food, ration kits and relief. See exactly what your gift can do.",
+    "calculator": {
+      "title": "See your impact",
+      "min": 50,
+      "max": 50000,
+      "step": 50,
+      "default": 2000,
+      "presets": [500, 1000, 2500, 5000, 15000],
+      "_note": "costPer = how many rupees it takes to provide ONE of each item. An item only appears once the amount covers at least one.",
+      "impacts": [
+        { "costPer": 50, "label": "hot meals served", "labelOne": "hot meal served" },
+        { "costPer": 80, "label": "children given a nourishing meal", "labelOne": "child given a nourishing meal" },
+        { "costPer": 150, "label": "people fed for a whole day", "labelOne": "person fed for a whole day" },
+        { "costPer": 600, "label": "family ration kits packed", "labelOne": "family ration kit packed" },
+        { "costPer": 15000, "label": "Sunday drives sponsored", "labelOne": "Sunday drive sponsored" }
+      ]
+    },
+    "upiId": "ismailjalotrawala@okicici",
+    "upiName": "Hunger Warriors",
+    "qrImage": "assets/img/upi-qr-code.jpg",
+    "afterDonating": "The moment your gift reaches us, you'll get a personal thank-you and your receipt on WhatsApp. After the next drive, we'll send you a photo of the smiles your kindness made possible. This is your meal on their plate.",
+    "taxNote": "",
+    "bank": null
+  },
+
+  "footer": {
+    "blurb": "A volunteer-run non-profit feeding people across Kolkata and West Bengal, every Sunday since 2019."
+  }
+}

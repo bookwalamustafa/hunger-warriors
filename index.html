@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hunger Warriors · #FoodForAll · Kolkata</title>
+  <meta name="description" content="Hunger Warriors is a volunteer-run non-profit in Kolkata, West Bengal. Every Sunday we feed people in need, and we run relief drives when disaster strikes. Join us, donate or volunteer.">
+  <meta name="theme-color" content="#0F2B5B">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Hunger Warriors · #FoodForAll">
+  <meta property="og:description" content="Every Sunday, volunteers in Kolkata come together so no one goes hungry. Join a drive or donate.">
+  <meta property="og:image" content="assets/img/team-group-photo.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="assets/logo-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!--
+    All text, numbers, dates and photos on this page come from content/site.json.
+    Edit that file, not this one.
+  -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#top" class="brand" aria-label="Hunger Warriors home">
+        <img src="assets/logo-mark.svg" alt="" width="38" height="44">
+        <span class="brand-word"><span class="bw-1">Hunger</span><span class="bw-2">Warriors</span></span>
+      </a>
+      <nav class="nav" id="nav" aria-label="Main">
+        <a href="#about">Our story</a>
+        <a href="#upcoming">Upcoming</a>
+        <a href="#legacy">Legacy</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="#involved">Volunteer</a>
+        <a href="#donate">Donate</a>
+      </nav>
+      <button class="nav-toggle" aria-controls="nav" aria-expanded="false" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <img class="hero-img" data-bind-img="hero.image" data-bind-alt="hero.imageAlt" alt="" fetchpriority="high">
+      <div class="hero-shade"></div>
+      <div class="container hero-content">
+        <h1 data-bind-rich="hero.headline"></h1>
+        <p class="hero-intro" data-bind="hero.intro"></p>
+        <div class="hero-actions">
+          <a href="#upcoming" class="btn btn-orange" data-bind="hero.primaryButton"></a>
+          <a href="#donate" class="btn btn-ghost" data-bind="hero.secondaryButton"></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Impact numbers -->
+    <section class="impact" aria-label="Our impact">
+      <div class="container"><div class="impact-grid" id="impact"></div></div>
+    </section>
+
+    <!-- Our story -->
+    <section class="section" id="about">
+      <div class="container about-grid">
+        <img class="about-img reveal" data-bind-img="about.image" data-bind-alt="about.imageAlt" alt="" loading="lazy">
+        <div class="reveal">
+          <p class="eyebrow" data-bind="about.eyebrow"></p>
+          <h2 data-bind-rich="about.heading"></h2>
+          <div id="about-story"></div>
+          <div class="mv">
+            <div><h3>Our mission</h3><p data-bind="about.mission"></p></div>
+            <div><h3>Our vision</h3><p data-bind="about.vision"></p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What we do -->
+    <section class="section section-tint" id="work">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow" data-bind="work.eyebrow"></p>
+          <h2 data-bind-rich="work.heading"></h2>
+        </div>
+        <div class="work-grid" id="work-items"></div>
+      </div>
+    </section>
+
+    <!-- Upcoming drives -->
+    <section class="section" id="upcoming">
+      <div class="container upcoming-grid">
+        <div class="reveal">
+          <p class="eyebrow" data-bind="upcoming.eyebrow"></p>
+          <h2 data-bind-rich="upcoming.heading"></h2>
+          <p class="lede" data-bind="upcoming.intro"></p>
+          <div class="regular-card">
+            <p class="regular-title"><span class="dot"></span><span data-bind="upcoming.regular.title"></span></p>
+            <dl>
+              <dt>Time</dt><dd data-bind="upcoming.regular.time"></dd>
+              <dt>Meet at</dt><dd data-bind="upcoming.regular.meetingPoint"></dd>
+              <dt>Bring</dt><dd data-bind="upcoming.regular.bring"></dd>
+            </dl>
+          </div>
+        </div>
+        <ol class="schedule" id="schedule"></ol>
+      </div>
+    </section>
+
+    <!-- Legacy (past drives) -->
+    <section class="section section-tint" id="legacy">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow" data-bind="pastDrives.eyebrow"></p>
+          <h2 data-bind-rich="pastDrives.heading"></h2>
+          <p class="lede" data-bind="pastDrives.intro"></p>
+        </div>
+        <div class="past-grid" id="past-list"></div>
+        <div class="center-actions">
+          <button class="btn btn-outline" id="past-more" type="button" data-bind="pastDrives.showAllButton" hidden></button>
+          <a class="text-link" href="gallery.html">Browse the gallery →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Get involved -->
+    <section class="section" id="involved">
+      <div class="container join-card reveal">
+        <div>
+          <p class="eyebrow" data-bind="involved.eyebrow"></p>
+          <h2 data-bind-rich="involved.heading"></h2>
+          <p class="lede" data-bind="involved.intro"></p>
+          <ul class="ways" id="ways"></ul>
+        </div>
+        <form class="join-form" id="join-form" novalidate>
+          <div class="field">
+            <label for="f-name">Your name</label>
+            <input id="f-name" name="name" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="f-phone">Phone / WhatsApp</label>
+            <input id="f-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel">
+          </div>
+          <div class="field">
+            <label for="f-area">Area in Kolkata</label>
+            <input id="f-area" name="area" placeholder="e.g. Park Circus" autocomplete="address-level2">
+          </div>
+          <div class="field">
+            <label for="f-how">I'd like to</label>
+            <select id="f-how" name="how"></select>
+          </div>
+          <div class="field field-full">
+            <label for="f-msg">Anything else? <span class="opt">(optional)</span></label>
+            <textarea id="f-msg" name="message" rows="3"></textarea>
+          </div>
+          <p class="form-error" id="form-error" role="alert" hidden>Please add your name and phone number.</p>
+          <button type="submit" class="btn btn-green field-full">Send via WhatsApp</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Donate -->
+    <section class="section donate" id="donate">
+      <div class="container donate-grid">
+        <div class="reveal">
+          <p class="eyebrow eyebrow-light" data-bind="donate.eyebrow"></p>
+          <h2 data-bind-rich="donate.heading"></h2>
+          <p class="lede" data-bind="donate.intro"></p>
+
+          <div class="calc" id="calc">
+            <h3 data-bind="donate.calculator.title"></h3>
+            <label class="calc-amount" for="calc-input">
+              <span class="calc-rupee">₹</span>
+              <input id="calc-input" type="text" inputmode="numeric" autocomplete="off" aria-label="Donation amount in rupees">
+            </label>
+            <input id="calc-range" class="calc-range" type="range" min="0" max="1000" step="1" aria-label="Donation amount slider">
+            <div class="calc-presets" id="calc-presets"></div>
+            <p class="calc-intro">Your gift could mean…</p>
+            <ul class="calc-results" id="calc-results" aria-live="polite"></ul>
+            <p class="calc-next" id="calc-next"></p>
+          </div>
+          <p class="tax-note" data-bind="donate.taxNote"></p>
+        </div>
+
+        <div class="donate-card reveal">
+          <h3>Scan to give with any UPI app</h3>
+          <img class="qr" data-bind-img="donate.qrImage" alt="UPI QR code for donations" loading="lazy">
+          <p class="scan-hint" id="scan-hint"></p>
+          <a class="btn btn-orange upi-app-btn" id="upi-link" href="#"></a>
+          <div class="upi-row">
+            <code id="upi-id" data-bind="donate.upiId"></code>
+            <button class="btn btn-sm btn-outline" id="copy-upi" type="button">Copy</button>
+          </div>
+          <details class="bank" id="bank" hidden>
+            <summary>Prefer a bank transfer?</summary>
+            <dl id="bank-details"></dl>
+          </details>
+          <p class="after-donating" data-bind="donate.afterDonating"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact">
+      <div class="container contact-grid">
+        <div class="reveal">
+          <p class="eyebrow" data-bind="contact.eyebrow"></p>
+          <h2 data-bind-rich="contact.heading"></h2>
+          <p class="lede" data-bind="contact.intro"></p>
+          <ul class="contact-list">
+            <li><span class="c-label">WhatsApp / Phone</span><a data-wa data-bind="contact.phone"></a></li>
+            <li><span class="c-label">Email</span><a id="email-link" data-bind="contact.email"></a></li>
+            <li><span class="c-label">Based in</span><span data-bind="contact.address"></span></li>
+          </ul>
+          <div class="socials" id="socials"></div>
+        </div>
+        <div class="map-wrap reveal"><iframe id="map" title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="footer-logo">
+          <img src="assets/logo-mark.svg" alt="" width="40" height="46">
+          <span class="brand-word"><span class="bw-1">Hunger</span><span class="bw-2">Warriors</span></span>
+        </div>
+        <p data-bind="footer.blurb"></p>
+      </div>
+      <p class="footer-hashtag" data-bind="site.hashtag"></p>
+      <p class="footer-legal">© <span id="year"></span> <span data-bind="site.name"></span> · <span data-bind="site.city"></span></p>
+    </div>
+  </footer>
+
+  <!-- Floating action dock: Join + Donate appear once you scroll past the top; WhatsApp is always there -->
+  <div class="dock" id="dock">
+    <a class="dock-btn dock-join" href="#upcoming" data-bind="floatingButtons.join"></a>
+    <a class="dock-btn dock-donate" href="#donate" data-bind="floatingButtons.donate"></a>
+    <a class="dock-wa" data-wa aria-label="Chat with us on WhatsApp">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.2-.7-2.7-1.1-4.4-3.8-4.5-4-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 1.9 1.1.9 2 1.2 2.3 1.4.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>
+    </a>
+  </div>
+
+  <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+    <button class="lb-close" aria-label="Close">×</button>
+    <button class="lb-nav lb-prev" aria-label="Previous photo">‹</button>
+    <figure><img alt=""><figcaption></figcaption></figure>
+    <button class="lb-nav lb-next" aria-label="Next photo">›</button>
+  </dialog>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
