@@ -51,11 +51,15 @@ async function init() {
   if ($("#gallery-grid")) renderGallery(data.gallery);
   if ($("#albums")) renderAlbums(data.pastDrives);
   if ($("#join-form")) renderInvolved(data.involved);
-  if ($("#calc")) renderDonate(data.donate);
+  if ($("#calc")) renderDonate(data.donate, data);
+  if ($("#map")) renderReach(data.reach);
+  if ($("#legal")) renderLegal(data.legal);
+  renderFooter(data.footer);
 
   $("#year").textContent = new Date().getFullYear();
   setupReveal();
   setupDock();
+  if ($("#reminder")) setupReminder(data.upcoming);
 
   // Links like index.html#donate arrive before the content exists, so jump again now it's built
   const target = location.hash && document.getElementById(location.hash.slice(1));
@@ -104,6 +108,40 @@ function countUp(el) {
 /* ---------- Our story ---------- */
 function renderAbout(about) {
   $("#about-story").innerHTML = about.story.map((p) => `<p>${esc(p)}</p>`).join("");
+  const photos = about.images || [];
+  const box = $("#about-photos");
+  if (!photos.length) return;
+  box.innerHTML = `
+    <div class="ap-track" id="ap-track">
+      ${photos
+        .map(
+          (p, i) => `
+        <figure class="ap-slide" aria-label="Photo ${i + 1} of ${photos.length}">
+          <img src="${esc(p.src)}" alt="${esc(p.alt)}" loading="lazy">
+          ${p.caption ? `<figcaption>${esc(p.caption)}</figcaption>` : ""}
+        </figure>`
+        )
+        .join("")}
+    </div>
+    ${
+      photos.length > 1
+        ? `<div class="ap-controls">
+        <button class="ap-btn" type="button" data-step="-1" aria-label="Previous photo">‹</button>
+        <div class="ap-dots">${photos.map((_, i) => `<button class="ap-dot" type="button" data-i="${i}" aria-label="Show photo ${i + 1}"></button>`).join("")}</div>
+        <button class="ap-btn" type="button" data-step="1" aria-label="Next photo">›</button>
+      </div>`
+        : ""
+    }`;
+
+  // A scroll-snap strip: swipe on phones, arrows and dots everywhere
+  const track = $("#ap-track");
+  const current = () => Math.round(track.scrollLeft / track.clientWidth);
+  const go = (i) => track.scrollTo({ left: ((i + photos.length) % photos.length) * track.clientWidth, behavior: "smooth" });
+  const mark = () => $$(".ap-dot", box).forEach((d, i) => d.setAttribute("aria-current", String(i === current())));
+  $$(".ap-btn", box).forEach((b) => b.addEventListener("click", () => go(current() + Number(b.dataset.step))));
+  $$(".ap-dot", box).forEach((b) => b.addEventListener("click", () => go(Number(b.dataset.i))));
+  track.addEventListener("scroll", () => requestAnimationFrame(mark), { passive: true });
+  mark();
 }
 
 /* ---------- What we do ---------- */
@@ -124,12 +162,28 @@ function renderWork(work) {
 }
 
 /* ---------- Upcoming drives (past dates hide automatically) ---------- */
-function renderUpcoming(up) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const drives = up.drives
+const startOfToday = () => {
+  const t = new Date();
+  t.setHours(0, 0, 0, 0);
+  return t;
+};
+
+function upcomingList(up) {
+  const today = startOfToday();
+  return [
+    ...(up.sundayDrives || []).map((d) => ({ ...d, type: "sunday" })),
+    ...(up.reliefDrives || []).map((d) => ({ ...d, type: "relief" })),
+  ]
     .filter((d) => parseDate(d.date) >= today)
     .sort((a, b) => parseDate(a.date) - parseDate(b.date));
+}
+
+const joinMessage = (d) =>
+  `Hi Hunger Warriors! I'd like to join the ${d.title} on ${fmt(d.date, { weekday: "long", day: "numeric", month: "long" })} (${d.location}).`;
+
+function renderUpcoming(up) {
+  const drives = upcomingList(up);
+  const first = up.showFirst || 5;
 
   if (!drives.length) {
     $("#schedule").innerHTML = `<li class="schedule-empty">No special drives announced right now. Join us any Sunday!</li>`;
@@ -137,11 +191,9 @@ function renderUpcoming(up) {
   }
 
   $("#schedule").innerHTML = drives
-    .map((d) => {
-      const when = fmt(d.date, { weekday: "long", day: "numeric", month: "long" });
-      const msg = `Hi Hunger Warriors! I'd like to join the ${d.title} on ${when} at ${d.location}.`;
+    .map((d, i) => {
       return `
-      <li class="drive drive-${esc(d.type)} reveal">
+      <li class="drive drive-${esc(d.type)} reveal" ${i >= first ? "data-extra-up hidden" : ""}>
         <div class="drive-date">
           <span class="dd-day">${fmt(d.date, { day: "numeric" })}</span>
           <span class="dd-month">${fmt(d.date, { month: "short" })}</span>
@@ -152,18 +204,90 @@ function renderUpcoming(up) {
           <p class="drive-meta">${esc(fmt(d.date, { weekday: "long" }))} · ${esc(d.time)} · ${esc(d.location)}</p>
           ${d.note ? `<p class="drive-note">${esc(d.note)}</p>` : ""}
         </div>
-        <a class="drive-join" href="${waLink(msg)}" target="_blank" rel="noopener">Join</a>
+        <a class="drive-join" href="${waLink(joinMessage(d))}" target="_blank" rel="noopener">Join</a>
       </li>`;
     })
     .join("");
+
+  if (drives.length > first) {
+    $("#schedule").insertAdjacentHTML(
+      "beforeend",
+      `<li class="schedule-more"><button class="btn btn-outline" type="button">${esc(up.showAllButton || "See all upcoming drives")} (${drives.length})</button></li>`
+    );
+    $(".schedule-more button").addEventListener("click", (e) => {
+      $$("[data-extra-up]").forEach((el) => {
+        el.hidden = false;
+        el.classList.add("in");
+      });
+      e.currentTarget.parentElement.remove();
+    });
+  }
+}
+
+/* ---------- Drive reminder pop-up ----------
+   Shows the next drive once it's within reminder.daysBefore days.
+   Closing it is remembered in this browser, per drive. */
+function setupReminder(up) {
+  const box = $("#reminder");
+  const days = up.reminder?.daysBefore ?? 7;
+  const today = startOfToday();
+  const soon = upcomingList(up).filter((d) => (parseDate(d.date) - today) / 864e5 <= days);
+  if (!soon.length) return;
+
+  const d = soon[0];
+  const key = `hw-reminder-${d.date}-${d.title}`;
+  try {
+    if (localStorage.getItem(key)) return;
+  } catch {}
+
+  const n = Math.round((parseDate(d.date) - today) / 864e5);
+  const when = n === 0 ? "Today" : n === 1 ? "Tomorrow" : `In ${n} days`;
+  const more = soon.length - 1;
+  box.className = `reminder reminder-${d.type}`;
+  box.innerHTML = `
+    <button class="rem-close" type="button" aria-label="Close reminder">×</button>
+    <p class="rem-when"><span class="rem-dot"></span>${when} · ${d.type === "relief" ? "Relief drive" : "Sunday drive"}</p>
+    <h3>${esc(d.title)}</h3>
+    <p class="rem-meta">${esc(fmt(d.date, { weekday: "short", day: "numeric", month: "short" }))} · ${esc(d.time)} · ${esc(d.location)}</p>
+    <div class="rem-actions">
+      <a class="btn btn-sm btn-orange" href="${waLink(joinMessage(d))}" target="_blank" rel="noopener">${esc(up.reminder?.joinButton || "Count me in")}</a>
+      <a class="btn btn-sm btn-outline rem-details" href="#upcoming">${esc(up.reminder?.detailsButton || "See details")}</a>
+    </div>
+    ${more > 0 ? `<p class="rem-more">+${more} more drive${more > 1 ? "s" : ""} this week</p>` : ""}`;
+
+  const close = () => {
+    box.classList.remove("show");
+    setTimeout(() => (box.hidden = true), 400);
+    try {
+      localStorage.setItem(key, "1");
+    } catch {}
+  };
+  $(".rem-close", box).addEventListener("click", close);
+  $(".rem-details", box).addEventListener("click", close);
+
+  setTimeout(() => {
+    box.hidden = false;
+    requestAnimationFrame(() => box.classList.add("show"));
+  }, 1800);
 }
 
 /* ---------- Legacy (past drives) ---------- */
 const typeTag = (type, long) =>
   `<span class="tag ${type === "relief" ? "tag-relief" : ""}">${type === "relief" ? (long ? "Relief drive" : "Relief") : long ? "Sunday drive" : "Sunday"}</span>`;
 
+// Sunday + relief lists → one list, newest first, with full photo paths
+function pastList(past) {
+  const withType = (list, type) =>
+    (list || []).map((d) => ({
+      ...d,
+      type,
+      photos: (d.photos || []).map((p) => ({ ...p, src: p.src || `${d.photoFolder || ""}${p.file}` })),
+    }));
+  return [...withType(past.sundayDrives, "sunday"), ...withType(past.reliefDrives, "relief")].sort(byNewest);
+}
+
 function renderPast(past) {
-  const drives = [...past.drives].sort(byNewest);
+  const drives = pastList(past);
   const first = past.showFirst || 4;
 
   $("#past-list").innerHTML = drives
@@ -233,11 +357,11 @@ function renderGallery(gallery) {
 }
 
 function renderAlbums(past) {
-  const drives = [...past.drives].sort(byNewest).filter((d) => d.photos?.length);
+  const drives = pastList(past).filter((d) => d.photos.length);
   $("#albums").innerHTML = drives
     .map(
       (d, di) => `
-      <section class="album">
+      <section class="album" id="${esc((d.photoFolder || "").split("/").filter(Boolean).pop() || "")}">
         <div class="album-head">
           ${typeTag(d.type, true)}
           <h3>${esc(d.title)}</h3>
@@ -257,22 +381,87 @@ function renderAlbums(past) {
 }
 
 /* ---------- Get involved ---------- */
+// [ISO code, name, dialling code, min digits, max digits] — India first and the default
+const COUNTRIES = [
+  ["IN", "India", "91", 10, 10], ["AE", "United Arab Emirates", "971", 9, 9], ["SA", "Saudi Arabia", "966", 9, 9],
+  ["QA", "Qatar", "974", 8, 8], ["OM", "Oman", "968", 8, 8], ["KW", "Kuwait", "965", 8, 8], ["BH", "Bahrain", "973", 8, 8],
+  ["BD", "Bangladesh", "880", 10, 10], ["NP", "Nepal", "977", 10, 10], ["LK", "Sri Lanka", "94", 9, 9],
+  ["PK", "Pakistan", "92", 10, 10], ["SG", "Singapore", "65", 8, 8], ["MY", "Malaysia", "60", 9, 10],
+  ["GB", "United Kingdom", "44", 10, 10], ["US", "United States / Canada", "1", 10, 10], ["AU", "Australia", "61", 9, 9],
+  ["NZ", "New Zealand", "64", 8, 10], ["DE", "Germany", "49", 10, 11], ["FR", "France", "33", 9, 9],
+  ["KE", "Kenya", "254", 9, 9], ["TZ", "Tanzania", "255", 9, 9], ["ZA", "South Africa", "27", 9, 9],
+];
+const flagImg = (iso) => `<img class="cc-flag" src="assets/flags/${iso.toLowerCase()}.svg" alt="" width="22" height="15">`;
+
+function setupPhoneField() {
+  const sel = $("#f-cc");
+  const input = $("#f-phone");
+  const face = $("#cc-face");
+  sel.innerHTML =
+    COUNTRIES.map(([iso, name, dial]) => `<option value="${iso}">${esc(name)} (+${dial})</option>`).join("") +
+    `<option value="other">Other (type +code in the number)</option>`;
+  sel.value = "IN";
+  const country = () => COUNTRIES.find((c) => c[0] === sel.value);
+  const paint = () => {
+    const c = country();
+    face.innerHTML = c ? `${flagImg(c[0])}+${c[2]}` : `<span class="cc-globe">+</span>`;
+    input.placeholder = c && c[0] === "IN" ? "98311 08057" : c ? "Phone number" : "+code and number";
+  };
+  sel.addEventListener("change", () => {
+    paint();
+    input.focus();
+  });
+
+  // Typing or pasting "+44…" / "0044…" switches the country automatically
+  input.addEventListener("input", () => {
+    const raw = input.value.trim();
+    if (!/^(\+|00)/.test(raw)) return;
+    const digits = raw.replace(/^00/, "").replace(/\D/g, "");
+    const match = [...COUNTRIES].sort((a, b) => b[2].length - a[2].length).find((c) => digits.startsWith(c[2]));
+    if (match && digits.length > match[2].length) {
+      sel.value = match[0];
+      input.value = digits.slice(match[2].length);
+      paint();
+    }
+  });
+  paint();
+
+  // Returns "+91 9831108057", or null if the number doesn't look right for the chosen country
+  return () => {
+    const c = country();
+    let digits = input.value.replace(/\D/g, "");
+    if (!c) return digits.length >= 7 && digits.length <= 15 ? `+${digits}` : null;
+    if (digits.startsWith(c[2]) && digits.length > c[4]) digits = digits.slice(c[2].length); // typed the code too
+    digits = digits.replace(/^0+/, ""); // local trunk zero
+    const ok = digits.length >= c[3] && digits.length <= c[4] && (c[0] !== "IN" || /^[6-9]/.test(digits));
+    return ok ? `+${c[2]} ${digits}` : null;
+  };
+}
+
 function renderInvolved(inv) {
   $("#ways").innerHTML = inv.ways.map((w) => `<li><strong>${esc(w.title)}</strong>${esc(w.text)}</li>`).join("");
   $("#f-how").innerHTML = inv.formOptions.map((o) => `<option>${esc(o)}</option>`).join("");
 
   const form = $("#join-form");
+  const phoneValue = setupPhoneField();
+  const err = $("#form-error");
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const f = Object.fromEntries(new FormData(form));
-    const missing = ["name", "phone"].filter((k) => !f[k].trim());
+    const phone = phoneValue();
+    const missing = [!f.name.trim() && "name", !phone && "phone"].filter(Boolean);
     $$("input", form).forEach((el) => el.classList.toggle("invalid", missing.includes(el.name)));
-    $("#form-error").hidden = !missing.length;
+    err.textContent = !f.name.trim()
+      ? "Please add your name."
+      : f.phone.trim()
+      ? "That phone number doesn't look right for the country selected. Please check it."
+      : "Please add your phone number.";
+    err.hidden = !missing.length;
     if (missing.length) return;
 
     const lines = [
       `Name: ${f.name.trim()}`,
-      `Phone: ${f.phone.trim()}`,
+      `Phone: ${phone}`,
       f.area.trim() && `Area: ${f.area.trim()}`,
       `I'd like to: ${f.how}`,
       f.message.trim() && `Message: ${f.message.trim()}`,
@@ -282,7 +471,7 @@ function renderInvolved(inv) {
 }
 
 /* ---------- Donate + impact calculator ---------- */
-function renderDonate(don) {
+function renderDonate(don, data) {
   const c = don.calculator;
   const impacts = [...c.impacts].sort((a, b) => a.costPer - b.costPer);
   const input = $("#calc-input");
@@ -306,8 +495,9 @@ function renderDonate(don) {
   const rows = $$(".calc-row", results);
 
   function update(amount, source) {
-    amount = Math.max(0, Math.min(Math.round(amount) || 0, 10000000));
-    if (source !== "input") input.value = amount ? amount.toLocaleString("en-IN") : "";
+    const capped = (Math.round(amount) || 0) > c.max;
+    amount = Math.max(0, Math.min(Math.round(amount) || 0, c.max));
+    if (source !== "input" || capped) input.value = amount ? amount.toLocaleString("en-IN") : "";
     if (source !== "range") range.value = toSlider(amount);
     range.style.setProperty("--fill", `${(range.value / 10).toFixed(1)}%`);
     $$(".chip").forEach((b) => b.classList.toggle("active", Number(b.dataset.amount) === amount));
@@ -338,6 +528,7 @@ function renderDonate(don) {
     $("#upi-link").href = payable ? `${upiBase}&am=${amount}` : upiBase;
     $("#upi-link").textContent = payable ? `Give ${rupees(amount)} with a UPI app` : "Give with a UPI app";
     $("#scan-hint").textContent = payable ? `Scan with your UPI app and enter ${rupees(amount)}` : "";
+    $("#bank-amount").textContent = payable && don.bank?.accountNumber ? `Transfer ${rupees(amount)}, then send us a WhatsApp so we can thank you.` : "";
   }
 
   input.addEventListener("input", () => update(Number(input.value.replace(/\D/g, "")), "input"));
@@ -346,24 +537,71 @@ function renderDonate(don) {
   $$(".chip").forEach((b) => b.addEventListener("click", () => update(Number(b.dataset.amount))));
   update(c.default);
 
-  const copy = $("#copy-upi");
-  copy.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(don.upiId);
-      copy.textContent = "Copied!";
-    } catch {
-      copy.textContent = "Copy failed";
+  /* Give once / Become a member tabs */
+  const m = don.membership;
+  const calcIntro = $(".calc-intro");
+  let onceAmount = c.default;
+  const showTab = (member) => {
+    $("#tab-once").setAttribute("aria-selected", String(!member));
+    $("#tab-member").setAttribute("aria-selected", String(member));
+    $("#pane-once").hidden = member;
+    $("#pane-member").hidden = !member;
+    // The calculator follows along: a membership shows what ₹500 does every month
+    if (member) {
+      onceAmount = Number(input.value.replace(/\D/g, "")) || c.default;
+      update(m.amount);
+      calcIntro.textContent = `Every month, your ${rupees(m.amount)} could mean…`;
+    } else {
+      update(onceAmount);
+      calcIntro.textContent = "Your gift could mean…";
     }
-    setTimeout(() => (copy.textContent = "Copy"), 1800);
-  });
+  };
+  $("#tab-once").addEventListener("click", () => showTab(false));
+  $("#tab-member").addEventListener("click", () => showTab(true));
 
-  if (don.bank) {
-    const labels = { accountName: "Account name", accountNumber: "Account no.", ifsc: "IFSC", bank: "Bank & branch" };
-    $("#bank-details").innerHTML = Object.entries(don.bank)
-      .map(([k, v]) => `<dt>${esc(labels[k] || k)}</dt><dd>${esc(v)}</dd>`)
+  $("#member-amount").textContent = rupees(m.amount);
+  $("#member-perks").innerHTML = m.perks.map((t) => `<li>${esc(t)}</li>`).join("");
+  $("#member-btn").href = m.autopayLink || waLink(m.fallbackMessage);
+
+  /* UPI / Bank transfer switch */
+  $$(".method-btn").forEach((btn) =>
+    btn.addEventListener("click", () => {
+      $$(".method-btn").forEach((b) => b.setAttribute("aria-checked", String(b === btn)));
+      $$(".method-pane").forEach((p) => (p.hidden = p.dataset.pane !== btn.dataset.method));
+    })
+  );
+
+  const b = don.bank || {};
+  if (b.accountNumber) {
+    const labels = { accountName: "Account name", accountNumber: "Account number", ifsc: "IFSC code", bank: "Bank", branch: "Branch", accountType: "Account type" };
+    const copyable = ["accountName", "accountNumber", "ifsc"];
+    $("#bank-details").innerHTML = Object.entries(labels)
+      .filter(([k]) => b[k])
+      .map(
+        ([k, label]) => `
+        <div class="bank-row">
+          <dt>${label}</dt>
+          <dd><span>${esc(b[k])}</span>${copyable.includes(k) ? `<button class="mini-copy copy-btn" type="button" data-copy-path="donate.bank.${k}" aria-label="Copy ${label}">Copy</button>` : ""}</dd>
+        </div>`
+      )
       .join("");
-    $("#bank").hidden = false;
+  } else {
+    $("#bank-details").hidden = true;
+    $("#bank-missing").hidden = false;
   }
+
+  // Copy buttons (UPI ID and bank details)
+  $$(".copy-btn").forEach((btn) =>
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(get(data, btn.dataset.copyPath));
+        btn.textContent = "Copied!";
+      } catch {
+        btn.textContent = "Copy failed";
+      }
+      setTimeout(() => (btn.textContent = "Copy"), 1800);
+    })
+  );
 }
 
 // Rolling "odometer" number: each digit is a strip of 0–9 that slides into place
@@ -385,6 +623,63 @@ function odometer(el, value) {
   [...str.replace(/\D/g, "")].forEach((d, i) => (strips[i].style.transform = `translateY(-${Number(d) * 10}%)`));
 }
 
+/* ---------- Our reach: West Bengal map ---------- */
+function renderReach(reach) {
+  const places = reach.places || [];
+  if (!window.L) {
+    $(".map-views").hidden = true;
+    return;
+  }
+  const map = L.map("map", {
+    scrollWheelZoom: false,
+    dragging: !L.Browser.mobile, // one finger scrolls the page on phones; zoom buttons still work
+    zoomSnap: 0.25,
+  });
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    maxZoom: 16,
+  }).addTo(map);
+
+  const size = { base: 22, sunday: 14, relief: 18 };
+  places.forEach((p) => {
+    const px = size[p.type] || 16;
+    L.marker([p.lat, p.lng], {
+      icon: L.divIcon({ className: "", html: `<span class="pin pin-${esc(p.type)} pin-map"></span>`, iconSize: [px, px], iconAnchor: [px / 2, px / 2] }),
+      zIndexOffset: p.type === "base" ? 1000 : p.type === "relief" ? 500 : 0,
+      keyboard: !!p.gallery,
+    })
+      .bindTooltip(`${esc(p.name)}${p.gallery ? ' <span class="tip-go">→ photos</span>' : ""}`, { direction: "top", offset: [0, -(px / 2) - 2] })
+      .on("click", () => p.gallery && (location.href = `gallery.html#${encodeURIComponent(p.gallery)}`))
+      .addTo(map);
+  });
+
+  // "Kolkata" view frames the Sunday drive dots; "West Bengal" frames the whole state
+  const city = places.filter((p) => p.type !== "relief").map((p) => [p.lat, p.lng]);
+  let stateBounds = null;
+  let view = "state";
+  const show = (v) => {
+    view = v;
+    $$(".map-view").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.view === v)));
+    if (v === "city" && city.length) map.fitBounds(L.latLngBounds(city).pad(0.35), { maxZoom: 14 });
+    else if (stateBounds) map.fitBounds(stateBounds, { padding: [16, 16] });
+    else map.setView([23.6, 87.9], 6.5);
+  };
+  $$(".map-view").forEach((b) => b.addEventListener("click", () => show(b.dataset.view)));
+
+  fetch("assets/west-bengal.geojson")
+    .then((r) => r.json())
+    .then((gj) => {
+      const state = L.geoJSON(gj, {
+        style: { color: "#EE7F2D", weight: 2, fillColor: "#EE7F2D", fillOpacity: 0.12, dashArray: "6 4" },
+        interactive: false,
+      }).addTo(map);
+      stateBounds = state.getBounds();
+    })
+    .catch(() => {})
+    .finally(() => show("state"));
+  window.addEventListener("resize", () => show(view));
+}
+
 /* ---------- Contact ---------- */
 const ICONS = {
   instagram:
@@ -400,10 +695,13 @@ function renderContact(c) {
     a.target = "_blank";
     a.rel = "noopener";
   });
+  const phones = $("#phones");
+  if (phones)
+    phones.innerHTML = (c.phones || [])
+      .map((p) => `<a href="tel:${esc(p.replace(/[^\d+]/g, ""))}">${esc(p)}</a>`)
+      .join(" / ");
   const email = $("#email-link");
   if (email) email.href = `mailto:${c.email}`;
-  const map = $("#map");
-  if (map) map.src = `https://maps.google.com/maps?q=${encodeURIComponent(c.mapSearch)}&z=12&output=embed`;
   const socials = $("#socials");
   if (socials)
     socials.innerHTML = Object.keys(ICONS)
@@ -412,19 +710,52 @@ function renderContact(c) {
       .join("");
 }
 
+/* ---------- Footer policy links ---------- */
+function renderFooter(footer) {
+  const nav = $("#footer-links");
+  if (nav) nav.innerHTML = (footer.links || []).map((l) => `<a href="${esc(l.href)}">${esc(l.label)}</a>`).join("");
+}
+
+/* ---------- Policies page ---------- */
+function renderLegal(legal) {
+  $("#legal-updated").textContent = `Last updated ${fmt(legal.updated, { day: "numeric", month: "long", year: "numeric" })}`;
+  $("#legal-toc").innerHTML = legal.sections.map((s) => `<a href="#${esc(s.id)}">${esc(s.title)}</a>`).join("");
+  const block = (b) =>
+    typeof b === "string"
+      ? `<p>${esc(b)}</p>`
+      : b.h
+      ? `<h3>${esc(b.h)}</h3>`
+      : b.list
+      ? `<ul>${b.list.map((li) => `<li>${esc(li)}</li>`).join("")}</ul>`
+      : "";
+  $("#legal").innerHTML = legal.sections
+    .map((s) => `<section class="legal-section" id="${esc(s.id)}"><h2>${esc(s.title)}</h2>${s.blocks.map(block).join("")}</section>`)
+    .join("");
+}
+
 /* ---------- Floating dock: Join + Donate slide in after the hero ---------- */
 function setupDock() {
   const dock = $("#dock");
   const hero = $(".hero");
   const donate = $("#donate");
-  if (!dock || !hero || !("IntersectionObserver" in window)) {
-    dock?.classList.add("is-active");
-    return;
-  }
-  new IntersectionObserver(([e]) => dock.classList.toggle("is-active", !e.isIntersecting), { threshold: 0.15 }).observe(hero);
-  // No need for a floating Donate button while the donate section is on screen
-  if (donate)
-    new IntersectionObserver(([e]) => dock.classList.toggle("at-donate", e.isIntersecting), { threshold: 0.25 }).observe(donate);
+  if (!dock || !hero) return; // gallery page: always active
+  let queued = false;
+  const check = () => {
+    queued = false;
+    const vh = window.innerHeight;
+    dock.classList.toggle("is-active", hero.getBoundingClientRect().bottom < vh * 0.35);
+    // No need for a floating Donate button while the donate section is on screen
+    if (donate) {
+      const r = donate.getBoundingClientRect();
+      dock.classList.toggle("at-donate", r.top < vh * 0.75 && r.bottom > vh * 0.25);
+    }
+  };
+  const onScroll = () => {
+    if (!queued) (queued = true), requestAnimationFrame(check);
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  check();
 }
 
 /* ---------- Header + mobile menu ---------- */

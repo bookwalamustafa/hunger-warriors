@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Gallery · Hunger Warriors</title>
-  <meta name="description" content="Photos from Hunger Warriors' Sunday food drives and relief drives across Kolkata and West Bengal. #FoodForAll">
+  <title>Policies · Hunger Warriors</title>
+  <meta name="description" content="Privacy policy, terms of use, donation and refund policy, and photo consent notice for Hunger Warriors, Kolkata.">
   <meta name="theme-color" content="#0F2B5B">
-  <meta property="og:title" content="Gallery · Hunger Warriors">
+  <meta property="og:title" content="Policies · Hunger Warriors">
   <meta property="og:image" content="assets/img/drives/relief/2026-08-23-sundarbans-boat/team-group-photo.jpg">
 
   <link rel="icon" href="assets/logo-mark.svg" type="image/svg+xml">
@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="page-sub">
-  <!-- Content comes from content/site.json ("gallery" for highlights, "pastDrives" for the albums). -->
+  <!-- Content comes from content/site.json ("legal"). -->
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header scrolled">
@@ -29,7 +29,7 @@
         <a href="index.html#about">Our story</a>
         <a href="index.html#upcoming">Upcoming</a>
         <a href="index.html#legacy">Legacy</a>
-        <a href="gallery.html" aria-current="page">Gallery</a>
+        <a href="gallery.html">Gallery</a>
         <a href="index.html#involved">Volunteer</a>
         <a href="index.html#donate">Donate</a>
       </nav>
@@ -42,23 +42,16 @@
   <main id="main">
     <section class="page-intro">
       <div class="container">
-        <p class="eyebrow" data-bind="gallery.eyebrow"></p>
-        <h1 data-bind-rich="gallery.heading"></h1>
-        <p class="lede" data-bind="gallery.intro"></p>
+        <p class="eyebrow" data-bind="legal.eyebrow"></p>
+        <h1 data-bind-rich="legal.heading"></h1>
+        <p class="lede" data-bind="legal.intro"></p>
+        <p class="legal-updated" id="legal-updated"></p>
       </div>
     </section>
-
-    <section class="gallery-block">
-      <div class="container">
-        <h2 class="block-title" data-bind-rich="gallery.highlightsHeading"></h2>
-        <div class="gallery" id="gallery-grid"></div>
-      </div>
-    </section>
-
-    <section class="gallery-block">
-      <div class="container">
-        <h2 class="block-title" data-bind-rich="gallery.albumsHeading"></h2>
-        <div id="albums"></div>
+    <section class="legal-block">
+      <div class="container legal-grid">
+        <nav class="legal-toc" id="legal-toc" aria-label="On this page"></nav>
+        <div class="legal-body" id="legal"></div>
       </div>
     </section>
   </main>

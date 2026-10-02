@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Hunger Warriors · #FoodForAll · Kolkata</title>
   <meta name="description" content="Hunger Warriors is a volunteer-run non-profit in Kolkata, West Bengal. Every Sunday we feed people in need, and we run relief drives when disaster strikes. Join us, donate or volunteer.">
   <meta name="theme-color" content="#0F2B5B">
@@ -10,13 +10,14 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Hunger Warriors · #FoodForAll">
   <meta property="og:description" content="Every Sunday, volunteers in Kolkata come together so no one goes hungry. Join a drive or donate.">
-  <meta property="og:image" content="assets/img/team-group-photo.jpg">
+  <meta property="og:image" content="assets/img/drives/relief/2026-08-23-sundarbans-boat/team-group-photo.jpg">
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="icon" href="assets/logo-mark.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -69,7 +70,7 @@
     <!-- Our story -->
     <section class="section" id="about">
       <div class="container about-grid">
-        <img class="about-img reveal" data-bind-img="about.image" data-bind-alt="about.imageAlt" alt="" loading="lazy">
+        <div class="about-photos reveal" id="about-photos"></div>
         <div class="reveal">
           <p class="eyebrow" data-bind="about.eyebrow"></p>
           <h2 data-bind-rich="about.heading"></h2>
@@ -145,7 +146,13 @@
           </div>
           <div class="field">
             <label for="f-phone">Phone / WhatsApp</label>
-            <input id="f-phone" name="phone" type="tel" required autocomplete="tel" inputmode="tel">
+            <div class="phone-field">
+              <div class="cc">
+                <span class="cc-face" id="cc-face" aria-hidden="true"></span>
+                <select id="f-cc" name="cc" aria-label="Country code" title="Country code"></select>
+              </div>
+              <input id="f-phone" name="phone" type="tel" required autocomplete="tel-national" inputmode="tel" placeholder="98311 08057">
+            </div>
           </div>
           <div class="field">
             <label for="f-area">Area in Kolkata</label>
@@ -159,6 +166,7 @@
             <label for="f-msg">Anything else? <span class="opt">(optional)</span></label>
             <textarea id="f-msg" name="message" rows="3"></textarea>
           </div>
+          <p class="form-notice field-full"><span data-bind="involved.formNotice"></span> <a href="legal.html#privacy">Privacy Policy</a></p>
           <p class="form-error" id="form-error" role="alert" hidden>Please add your name and phone number.</p>
           <button type="submit" class="btn btn-green field-full">Send via WhatsApp</button>
         </form>
@@ -189,38 +197,101 @@
         </div>
 
         <div class="donate-card reveal">
-          <h3>Scan to give with any UPI app</h3>
-          <img class="qr" data-bind-img="donate.qrImage" alt="UPI QR code for donations" loading="lazy">
-          <p class="scan-hint" id="scan-hint"></p>
-          <a class="btn btn-orange upi-app-btn" id="upi-link" href="#"></a>
-          <div class="upi-row">
-            <code id="upi-id" data-bind="donate.upiId"></code>
-            <button class="btn btn-sm btn-outline" id="copy-upi" type="button">Copy</button>
+          <div class="seg" role="tablist" aria-label="How would you like to give?">
+            <button class="seg-btn" role="tab" id="tab-once" aria-controls="pane-once" aria-selected="true" type="button">Give once</button>
+            <button class="seg-btn" role="tab" id="tab-member" aria-controls="pane-member" aria-selected="false" type="button">
+              <span data-bind="donate.membership.tabLabel"></span>
+              <span class="seg-badge" data-bind="donate.membership.badge"></span>
+            </button>
           </div>
-          <details class="bank" id="bank" hidden>
-            <summary>Prefer a bank transfer?</summary>
-            <dl id="bank-details"></dl>
-          </details>
-          <p class="after-donating" data-bind="donate.afterDonating"></p>
+
+          <!-- One-time gift: UPI or bank transfer -->
+          <div class="pane" id="pane-once" role="tabpanel" aria-labelledby="tab-once">
+            <div class="method" role="radiogroup" aria-label="Payment method">
+              <button class="method-btn" type="button" role="radio" aria-checked="true" data-method="upi">UPI</button>
+              <button class="method-btn" type="button" role="radio" aria-checked="false" data-method="bank">Bank transfer</button>
+            </div>
+
+            <div class="method-pane" data-pane="upi">
+              <h3>Scan to give with any UPI app</h3>
+              <img class="qr" data-bind-img="donate.qrImage" alt="UPI QR code for donations" loading="lazy">
+              <p class="scan-hint" id="scan-hint"></p>
+              <a class="btn btn-orange upi-app-btn" id="upi-link" href="#"></a>
+              <div class="copy-row">
+                <code data-bind="donate.upiId"></code>
+                <button class="btn btn-sm btn-outline copy-btn" type="button" data-copy-path="donate.upiId">Copy</button>
+              </div>
+            </div>
+
+            <div class="method-pane" data-pane="bank" hidden>
+              <h3>Give from your bank account</h3>
+              <p class="pane-intro" data-bind="donate.bankIntro"></p>
+              <dl class="bank-list" id="bank-details"></dl>
+              <p class="pane-note" id="bank-missing" data-bind="donate.bankMissing" hidden></p>
+              <p class="bank-amount" id="bank-amount"></p>
+            </div>
+
+            <p class="after-donating" data-bind="donate.afterDonating"></p>
+            <p class="policy-link"><a href="legal.html#donations">Donations &amp; refund policy</a></p>
+          </div>
+
+          <!-- Monthly membership -->
+          <div class="pane member" id="pane-member" role="tabpanel" aria-labelledby="tab-member" hidden>
+            <p class="member-price"><span id="member-amount"></span><small>/month</small></p>
+            <h3 data-bind-rich="donate.membership.heading"></h3>
+            <p class="pane-intro" data-bind="donate.membership.intro"></p>
+            <ul class="perks" id="member-perks"></ul>
+            <a class="btn btn-phonepe" id="member-btn" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.6 4.5c2.1 0 3.6 1.2 4.4 2.5.8-1.3 2.3-2.5 4.4-2.5 3.6 0 5.7 3.8 4.2 7.2C19.5 16.4 12 21 12 21z"/></svg>
+              <span data-bind="donate.membership.button"></span>
+            </a>
+            <p class="pane-note" data-bind="donate.membership.autopayNote"></p>
+            <p class="pane-note pane-note-alt" data-bind="donate.membership.bankOption"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our reach (map of West Bengal) -->
+    <section class="section section-tint" id="reach">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow" data-bind="reach.eyebrow"></p>
+          <h2 data-bind-rich="reach.heading"></h2>
+          <p class="lede" data-bind="reach.intro"></p>
+        </div>
+        <div class="reveal">
+          <div class="map-wrap">
+            <div class="map-views" role="group" aria-label="Map view">
+              <button type="button" class="map-view" data-view="state" aria-pressed="true" data-bind="reach.viewState"></button>
+              <button type="button" class="map-view" data-view="city" aria-pressed="false" data-bind="reach.viewCity"></button>
+            </div>
+            <div id="map" role="region" aria-label="Map of West Bengal showing where Hunger Warriors has run drives"></div>
+            <ul class="legend" aria-hidden="true">
+              <li><span class="pin pin-base"></span>Home base</li>
+              <li><span class="pin pin-sunday"></span>Sunday drives</li>
+              <li><span class="pin pin-relief"></span>Relief drives</li>
+              <li><span class="swatch"></span>West Bengal</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Contact -->
     <section class="section" id="contact">
-      <div class="container contact-grid">
-        <div class="reveal">
+      <div class="container contact-wrap reveal">
+        <div>
           <p class="eyebrow" data-bind="contact.eyebrow"></p>
           <h2 data-bind-rich="contact.heading"></h2>
           <p class="lede" data-bind="contact.intro"></p>
-          <ul class="contact-list">
-            <li><span class="c-label">WhatsApp / Phone</span><a data-wa data-bind="contact.phone"></a></li>
-            <li><span class="c-label">Email</span><a id="email-link" data-bind="contact.email"></a></li>
-            <li><span class="c-label">Based in</span><span data-bind="contact.address"></span></li>
-          </ul>
-          <div class="socials" id="socials"></div>
         </div>
-        <div class="map-wrap reveal"><iframe id="map" title="Map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+        <ul class="contact-list">
+          <li><span class="c-label">Phone</span><span class="phones" id="phones"></span></li>
+          <li><span class="c-label">Email</span><a id="email-link" data-bind="contact.email"></a></li>
+          <li><span class="c-label">Based in</span><span data-bind="contact.address"></span></li>
+          <li class="socials-li"><div class="socials" id="socials"></div></li>
+        </ul>
       </div>
     </section>
   </main>
@@ -233,20 +304,33 @@
           <span class="brand-word"><span class="bw-1">Hunger</span><span class="bw-2">Warriors</span></span>
         </div>
         <p data-bind="footer.blurb"></p>
+        <p class="footer-records" data-bind="footer.recordsNote"></p>
       </div>
       <p class="footer-hashtag" data-bind="site.hashtag"></p>
-      <p class="footer-legal">© <span id="year"></span> <span data-bind="site.name"></span> · <span data-bind="site.city"></span></p>
+      <div class="footer-legal">
+        <p>© <span id="year"></span> <span data-bind="site.name"></span> · <span data-bind="site.city"></span></p>
+        <nav class="footer-links" id="footer-links" aria-label="Policies"></nav>
+      </div>
     </div>
   </footer>
 
   <!-- Floating action dock: Join + Donate appear once you scroll past the top; WhatsApp is always there -->
   <div class="dock" id="dock">
-    <a class="dock-btn dock-join" href="#upcoming" data-bind="floatingButtons.join"></a>
-    <a class="dock-btn dock-donate" href="#donate" data-bind="floatingButtons.donate"></a>
+    <a class="dock-btn dock-join" href="#upcoming">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4zM8 12a3 3 0 1 0-3-3 3 3 0 0 0 3 3zm8 1c-2.7 0-8 1.3-8 4v3h16v-3c0-2.7-5.3-4-8-4zm-8 .2C5.3 13.2 0 14.5 0 17v3h6v-3c0-1.5.8-2.8 2.2-3.8z"/></svg>
+      <span data-bind="floatingButtons.join"></span>
+    </a>
+    <a class="dock-btn dock-donate" href="#donate">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.6 4.5c2.1 0 3.6 1.2 4.4 2.5.8-1.3 2.3-2.5 4.4-2.5 3.6 0 5.7 3.8 4.2 7.2C19.5 16.4 12 21 12 21z"/></svg>
+      <span data-bind="floatingButtons.donate"></span>
+    </a>
     <a class="dock-wa" data-wa aria-label="Chat with us on WhatsApp">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.2-.7-2.7-1.1-4.4-3.8-4.5-4-.1-.2-1.1-1.4-1.1-2.7s.7-1.9.9-2.2c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 1.9 1.1.9 2 1.2 2.3 1.4.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>
     </a>
   </div>
+
+  <!-- Pop-up reminder for a drive happening within the next week (filled in by main.js) -->
+  <aside class="reminder" id="reminder" aria-live="polite" hidden></aside>
 
   <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
     <button class="lb-close" aria-label="Close">×</button>
@@ -255,6 +339,7 @@
     <button class="lb-nav lb-next" aria-label="Next photo">›</button>
   </dialog>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>
