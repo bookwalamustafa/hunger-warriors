@@ -489,7 +489,7 @@ function renderDonate(don, data) {
 
   // The slider is logarithmic so small and large amounts are both easy to pick
   const span = Math.log(c.max / c.min);
-  const toAmount = (t) => Math.max(c.min, Math.round((c.min * Math.exp((t / 1000) * span)) / c.step) * c.step);
+  const toAmount = (t) => (t <= 0 ? c.min : Math.max(c.min, Math.round((c.min * Math.exp((t / 1000) * span)) / c.step) * c.step));
   const toSlider = (a) => Math.round((1000 * Math.log(Math.min(Math.max(a, c.min), c.max) / c.min)) / span);
 
   $("#calc-presets").innerHTML = c.presets
@@ -497,14 +497,19 @@ function renderDonate(don, data) {
     .join("");
 
   results.innerHTML = impacts
-    .map((it) => `<li class="calc-row"><span class="odo" aria-hidden="true"></span><span class="calc-label"></span><span class="sr-only"></span></li>`)
+    .map(
+      () => `<li class="calc-row"><span class="odo" aria-hidden="true"></span><span class="calc-text"><span class="calc-label"></span><small class="calc-detail"></small></span><span class="sr-only"></span></li>`
+    )
     .join("");
   const rows = $$(".calc-row", results);
 
   function update(amount, source) {
-    const capped = (Math.round(amount) || 0) > c.max;
-    amount = Math.max(0, Math.min(Math.round(amount) || 0, c.max));
-    if (source !== "input" || capped) input.value = amount ? amount.toLocaleString("en-IN") : "";
+    // Never below the minimum (₹85, one meal) or above the maximum. While someone is still
+    // typing a small number we leave their text alone; it snaps to the minimum when they leave the box.
+    const typed = Math.round(amount) || 0;
+    const capped = typed > c.max;
+    amount = Math.min(Math.max(typed, c.min), c.max);
+    if (source !== "input" || capped) input.value = amount.toLocaleString("en-IN");
     if (source !== "range") range.value = toSlider(amount);
     range.style.setProperty("--fill", `${(range.value / 10).toFixed(1)}%`);
     $$(".chip").forEach((b) => b.classList.toggle("active", Number(b.dataset.amount) === amount));
@@ -518,35 +523,45 @@ function renderDonate(don, data) {
         odometer($(".odo", row), n);
         const label = n === 1 ? it.labelOne || it.label : it.label;
         $(".calc-label", row).textContent = label;
-        $(".sr-only", row).textContent = `${n.toLocaleString("en-IN")} ${label}`;
+        $(".calc-detail", row).textContent = it.detail || "";
+        $(".sr-only", row).textContent = `${i ? "or " : ""}${n.toLocaleString("en-IN")} ${label}`;
       }
     });
 
     const locked = impacts.find((it) => amount < it.costPer);
-    if (amount < c.min) {
-      next.textContent = `Every ${rupees(impacts[0].costPer)} puts a hot meal in someone's hands. Enter at least ${rupees(c.min)}.`;
-    } else if (locked) {
-      next.innerHTML = `Just <strong>${rupees(locked.costPer - amount)}</strong> more and you'll also give <strong>1 ${esc(locked.labelOne || locked.label)}</strong>.`;
+    if (locked) {
+      next.innerHTML = `<strong>${rupees(locked.costPer - amount)}</strong> more and it could be <strong>1 ${esc(locked.labelOne || locked.label)}</strong> instead.`;
     } else {
-      next.textContent = "You're sponsoring entire Sundays. Thank you, Warrior.";
+      // Everything is unlocked: show the smallest top-up that adds one more of something
+      const steps = impacts.map((it) => ({ it, more: it.costPer - (amount % it.costPer), n: Math.floor(amount / it.costPer) + 1 }));
+      const least = Math.min(...steps.map((x) => x.more));
+      if (amount + least > c.max) {
+        next.innerHTML = `${esc(c.maxMessage || "That's the most you can enter here. Thank you, Warrior!")} <a class="calc-wa" href="${waLink(
+          c.maxWhatsApp || "Hi Hunger Warriors! I'd like to give more than ₹2,00,000. Can we talk?"
+        )}" target="_blank" rel="noopener">${esc(c.maxLink || "Message us on WhatsApp")}</a>`;
+      } else {
+        const gains = steps
+          .filter((x) => x.more === least)
+          .map((x) => `<strong>${x.n.toLocaleString("en-IN")} ${esc(x.n === 1 ? x.it.labelOne || x.it.label : x.it.label)}</strong>`);
+        next.innerHTML = `<strong>${rupees(least)}</strong> more and it could be ${gains.join(" or ")}.`;
+      }
     }
 
-    const payable = amount >= c.min;
+    const payable = true;
     $("#upi-link").href = payable ? `${upiBase}&am=${amount}` : upiBase;
     $("#upi-link").textContent = payable ? `Give ${rupees(amount)} with a UPI app` : "Give with a UPI app";
     $("#scan-hint").textContent = payable ? `Scan with your UPI app and enter ${rupees(amount)}` : "";
-    $("#bank-amount").textContent = payable && don.bank?.accountNumber ? `Transfer ${rupees(amount)}, then send us a WhatsApp so we can thank you.` : "";
+    $("#bank-amount").textContent = payable && don.bank?.accountNumber && !don.bank.placeholder ? `Transfer ${rupees(amount)}, then send us a WhatsApp so we can thank you.` : "";
   }
 
   input.addEventListener("input", () => update(Number(input.value.replace(/\D/g, "")), "input"));
-  input.addEventListener("blur", () => update(Math.max(Number(input.value.replace(/\D/g, "")), c.min)));
+  input.addEventListener("blur", () => update(Number(input.value.replace(/\D/g, "")), "blur"));
   range.addEventListener("input", () => update(toAmount(Number(range.value)), "range"));
   $$(".chip").forEach((b) => b.addEventListener("click", () => update(Number(b.dataset.amount))));
   update(c.default);
 
   /* Give once / Become a member tabs */
   const m = don.membership;
-  const calcIntro = $(".calc-intro");
   let onceAmount = c.default;
   const showTab = (member) => {
     $("#tab-once").setAttribute("aria-selected", String(!member));
@@ -554,14 +569,8 @@ function renderDonate(don, data) {
     $("#pane-once").hidden = member;
     $("#pane-member").hidden = !member;
     // The calculator follows along: a membership shows what ₹500 does every month
-    if (member) {
-      onceAmount = Number(input.value.replace(/\D/g, "")) || c.default;
-      update(m.amount);
-      calcIntro.textContent = `Every month, your ${rupees(m.amount)} could mean…`;
-    } else {
-      update(onceAmount);
-      calcIntro.textContent = "Your gift could mean…";
-    }
+    if (member) onceAmount = Number(input.value.replace(/\D/g, "")) || c.default;
+    update(member ? m.amount : onceAmount);
   };
   $("#tab-once").addEventListener("click", () => showTab(false));
   $("#tab-member").addEventListener("click", () => showTab(true));
@@ -580,8 +589,11 @@ function renderDonate(don, data) {
 
   const b = don.bank || {};
   if (b.accountNumber) {
-    const labels = { accountName: "Account name", accountNumber: "Account number", ifsc: "IFSC code", bank: "Bank", branch: "Branch", accountType: "Account type" };
-    const copyable = ["accountName", "accountNumber", "ifsc"];
+    const labels = { accountName: "Beneficiary name", accountNumber: "Account number", ifsc: "IFSC code", bankBranch: "Bank name & branch", accountType: "Account type" };
+    // Placeholder details are shown greyed out, with no copy buttons
+    const copyable = b.placeholder ? [] : ["accountName", "accountNumber", "ifsc"];
+    $("#bank-details").classList.toggle("is-placeholder", !!b.placeholder);
+    $("#bank-missing").hidden = !b.placeholder;
     $("#bank-details").innerHTML = Object.entries(labels)
       .filter(([k]) => b[k])
       .map(

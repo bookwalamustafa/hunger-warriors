@@ -10,7 +10,7 @@ content/site.json   ALL text, numbers, dates and photos: edit this
 css/style.css       styling (brand colours at the top)
 js/main.js          builds both pages from site.json
 assets/
-  logo-mark.svg, upi-qr-code.jpg, west-bengal.geojson (map outline)
+  logo-mark.png, favicon.png, apple-touch-icon.png, upi-qr-code.jpg, west-bengal.geojson (map outline)
   img/general/                         photos not tied to one drive
   img/drives/sunday/YYYY-MM-DD-place/  one folder per Sunday drive
   img/drives/relief/YYYY-MM-DD-place/  one folder per relief drive
@@ -41,7 +41,7 @@ The drive also shows up automatically as an album on the gallery page.
 - **Our story photos** (`about.images`): a slider. The first is the founders' photo; visitors use the arrows or dots to see the rest. Add a `caption` to the first once it's the real photo.
 - **Policies** (`legal`): the privacy policy, terms, donation & refund policy and photo consent shown on `legal.html` and linked in the footer. Update `legal.updated` whenever you change them.
 - **Donation calculator** (`donate.calculator.impacts`): `costPer` is the rupees needed for one of that item.
-- **Bank transfer** (`donate.bank`): fill in the details. While `accountNumber` is empty, the site asks people to WhatsApp you instead.
+- **Bank transfer** (`donate.bank`): replace the placeholder values with the real beneficiary name, account number, IFSC code and bank name & branch, then set `"placeholder": false`. While it's `true`, the details show greyed out with a "being finalised" note and no copy buttons.
 - **Monthly membership** (`donate.membership.autopayLink`): paste your PhonePe AutoPay link. While it's empty, the button opens WhatsApp.
 - **Social links**: fill in `contact.instagram`, `facebook` or `youtube` to show that icon.
 - Wrap a word in `*asterisks*` inside a heading to make it orange and italic. Dates are `YYYY-MM-DD`.

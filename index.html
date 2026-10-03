@@ -13,7 +13,8 @@
   <meta property="og:image" content="assets/img/drives/relief/2026-08-23-sundarbans-boat/team-group-photo.jpg">
   <meta name="twitter:card" content="summary_large_image">
 
-  <link rel="icon" href="assets/logo-mark.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -30,7 +31,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <a href="#top" class="brand" aria-label="Hunger Warriors home">
-        <img src="assets/logo-mark.svg" alt="" width="38" height="44">
+        <img src="assets/logo-mark.png" alt="" width="38" height="49">
         <span class="brand-word"><span class="bw-1">Hunger</span><span class="bw-2">Warriors</span></span>
       </a>
       <nav class="nav" id="nav" aria-label="Main">
@@ -189,9 +190,10 @@
             </label>
             <input id="calc-range" class="calc-range" type="range" min="0" max="1000" step="1" aria-label="Donation amount slider">
             <div class="calc-presets" id="calc-presets"></div>
-            <p class="calc-intro">Your gift could mean…</p>
+            <p class="calc-intro" data-bind="donate.calculator.resultsLabel"></p>
             <ul class="calc-results" id="calc-results" aria-live="polite"></ul>
             <p class="calc-next" id="calc-next"></p>
+            <p class="calc-foot" data-bind="donate.calculator.footnote"></p>
           </div>
           <p class="tax-note" data-bind="donate.taxNote"></p>
         </div>
@@ -221,6 +223,7 @@
                 <code data-bind="donate.upiId"></code>
                 <button class="btn btn-sm btn-outline copy-btn" type="button" data-copy-path="donate.upiId">Copy</button>
               </div>
+              <p class="upi-apps-label" data-bind="donate.upiAppsLabel"></p>
             </div>
 
             <div class="method-pane" data-pane="bank" hidden>
@@ -228,6 +231,7 @@
               <p class="pane-intro" data-bind="donate.bankIntro"></p>
               <dl class="bank-list" id="bank-details"></dl>
               <p class="pane-note" id="bank-missing" data-bind="donate.bankMissing" hidden></p>
+              <p class="pane-note" data-bind="donate.bankRemarks"></p>
               <p class="bank-amount" id="bank-amount"></p>
             </div>
 
@@ -300,7 +304,7 @@
     <div class="container footer-grid">
       <div>
         <div class="footer-logo">
-          <img src="assets/logo-mark.svg" alt="" width="40" height="46">
+          <img src="assets/logo-mark.png" alt="" width="40" height="52">
           <span class="brand-word"><span class="bw-1">Hunger</span><span class="bw-2">Warriors</span></span>
         </div>
         <p data-bind="footer.blurb"></p>

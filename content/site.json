@@ -16,7 +16,15 @@
     "reminder": {"daysBefore": 7, "joinButton": "Count me in", "detailsButton": "See details"},
     "_howToAdd": "Add each Sunday drive to sundayDrives and each relief drive to reliefDrives (copy the matching _template). Past dates disappear on their own. A drive happening within the next reminder.daysBefore days also pops up as a reminder on the home page.",
     "_sundayTemplate": {"date": "YYYY-MM-DD", "time": "8:00 AM", "title": "Sunday Food Drive", "location": "Place, Kolkata", "note": "One line about what we will do."},
-    "sundayDrives": [],
+    "sundayDrives": [
+      {
+        "date": "2026-10-11",
+        "time": "Time TBD",
+        "title": "Sunday Food Drive",
+        "location": "Location TBD",
+        "note": "Time and place will be shared here and on WhatsApp closer to the day."
+      }
+    ],
     "_reliefTemplate": {
       "date": "YYYY-MM-DD",
       "time": "6:00 AM",
@@ -55,6 +63,15 @@
       ]
     },
     "sundayDrives": [
+      {
+        "date": "2021-06-06",
+        "dateLabel": "2021",
+        "_dateNote": "Exact date unknown; date is only used to keep it in order.",
+        "title": "Breakfast for Park Circus and Topsia",
+        "location": "Park Circus Maidan & the bustee opposite Al-Anwar, Topsia",
+        "summary": "Breakfast packets for families at Park Circus Maidan and in the bustee opposite Al-Anwar in Topsia.",
+        "stats": []
+      },
       {
         "date": "2021-06-05",
         "title": "100 packets near G.D. Hospital",
@@ -177,7 +194,7 @@
         "date": "2021-06-26",
         "title": "Cyclone Yaas relief in Sandeshkhali",
         "location": "Sandeshkhali, Sundarbans",
-        "summary": "After Cyclone Yaas ravaged the Sundarbans, we took 200 packets of dry rations to Sandeshkhali. Each packet held 13 essentials: rice, onion, potato, atta, mustard oil, masoor dal, salt, turmeric, chilli, soya chunks, muri, Maggi and biscuits. Rations and transport came to over ₹70,000, about ₹350 a packet.",
+        "summary": "After Cyclone Yaas ravaged the Sundarbans, we took 200 packets of dry rations to Sandeshkhali. Each packet held 13 essentials: rice, onion, potato, atta, mustard oil, masoor dal, salt, turmeric, chilli, soya chunks, muri, Maggi and biscuits.",
         "stats": [
           {"value": "200", "label": "ration packets"},
           {"value": "13", "label": "essentials in each"}
@@ -192,15 +209,6 @@
           {"file": "handing-out-to-children.jpg", "alt": "Volunteers handing out supplies to children by a pond"},
           {"file": "relief-food-handover.jpg", "alt": "Volunteers handing out food to a crowd"}
         ]
-      },
-      {
-        "date": "2021-06-06",
-        "dateLabel": "2021",
-        "_dateNote": "Exact date unknown; date is only used to keep it in order.",
-        "title": "Breakfast for Park Circus and Topsia",
-        "location": "Park Circus Maidan & the bustee opposite Al-Anwar, Topsia",
-        "summary": "Breakfast packets for families at Park Circus Maidan and in the bustee opposite Al-Anwar in Topsia.",
-        "stats": []
       }
     ]
   },
@@ -254,10 +262,10 @@
   },
 
   "impact": [
-    {"number": 85000, "suffix": "+", "label": "Meals served"},
+    {"number": 65000, "suffix": "+", "label": "Meals served"},
     {"number": 260, "suffix": "+", "label": "Sunday drives"},
-    {"number": 24, "suffix": "", "label": "Relief drives"},
-    {"number": 150, "suffix": "+", "label": "Volunteers"}
+    {"number": 11, "suffix": "", "label": "Relief drives"},
+    {"number": 40, "suffix": "+", "label": "Members"}
   ],
 
   "site": {
@@ -300,7 +308,7 @@
     "story": [
       "In 2021, as the COVID-19 lockdown emptied Kolkata's streets, our founders Mufaddal Bookwala and Hasnain Ukani saw what it meant for the people who had nowhere else to go. The homeless and the families living on the pavements had always lived on the edge. Now the shops were shut, the crowds had vanished, and no one was coming by with food.",
       "They couldn't look away. So two friends got on their bikes and set out with whatever food they could arrange, for whoever needed it. For the first few months it was quiet and informal, through the lockdown and the hard months that followed.",
-      "Then people began asking how they could help. Two became five, five became seven, and seven became a family of more than 150 Hunger Warriors. Today we plan and run food drives across Kolkata, and whenever floods or cyclones hit Bengal, we load up and go."
+      "Then people began asking how they could help. Two became five, five became seven, and seven became a family. Today more than 100 volunteers have walked with us over the years, and 40+ monthly members keep every drive going. Together we plan and run food drives across Kolkata, and whenever floods or cyclones hit Bengal, we load up and go."
     ],
     "mission": "To reach the people our city overlooks, on the streets, outside hospitals and in Bengal's hardest-hit villages, with nourishing food and essentials, delivered with dignity, consistency and care.",
     "vision": "A Bengal where no one sleeps hungry, not a child, an elder or a family, and where feeding the person next to you is simply what neighbours do.",
@@ -308,7 +316,10 @@
     "images": [
       {"src": "assets/img/general/volunteers-smiling.jpg", "alt": "Founders Mufaddal Bookwala and Hasnain Ukani", "caption": ""},
       {"src": "assets/img/general/young-volunteers-handout.jpg", "alt": "Young volunteers handing out food on the street"},
-      {"src": "assets/img/general/sundarbans-team-lunch.jpg", "alt": "The team sharing lunch after a relief drive"}
+      {
+        "src": "assets/img/general/team-clothes-distribution.jpg",
+        "alt": "The Hunger Warriors team with clothes and blankets ready to hand out in a village"
+      }
     ]
   },
 
@@ -356,19 +367,22 @@
     "intro": "We're run entirely by volunteers, so every rupee you give becomes food, ration kits and relief. See exactly what your gift can do.",
     "calculator": {
       "title": "See your impact",
-      "min": 50,
+      "min": 85,
       "max": 200000,
       "step": 50,
       "default": 2000,
-      "presets": [500, 1000, 2500, 5000, 15000],
-      "_note": "costPer = how many rupees it takes to provide ONE of each item. An item only appears once the amount covers at least one.",
+      "presets": [500, 1000, 5000, 10000, 25000, 50000, 100000, 200000],
+      "_note": "costPer = rupees needed for ONE of each option. A gift buys ONE of these options, not all of them; the page shows them as alternatives separated by 'or'. An option only appears once the amount covers at least one.",
       "impacts": [
-        {"costPer": 50, "label": "hot meals served", "labelOne": "hot meal served"},
-        {"costPer": 80, "label": "children given a nourishing meal", "labelOne": "child given a nourishing meal"},
-        {"costPer": 150, "label": "people fed for a whole day", "labelOne": "person fed for a whole day"},
-        {"costPer": 600, "label": "family ration kits delivered", "labelOne": "family ration kit delivered"},
-        {"costPer": 15000, "label": "Sunday drives sponsored", "labelOne": "Sunday drive sponsored"}
-      ]
+        {"costPer": 85, "label": "meals for children", "labelOne": "meal for a child", "detail": "Breakfast with fruit, or a proper meal"},
+        {"costPer": 170, "label": "adults fed", "labelOne": "adult fed", "detail": "An adult portion is two meals"},
+        {"costPer": 900, "label": "family ration bags", "labelOne": "family ration bag", "detail": "Dry rations for a whole family"}
+      ],
+      "footnote": "₹85 feeds a child · ₹170 feeds an adult · ₹900 buys a family ration bag",
+      "resultsLabel": "Your gift could mean…",
+      "maxMessage": "That's the most you can enter here. Thank you, Warrior! Want to give more?",
+      "maxLink": "Message us on WhatsApp and let's talk",
+      "maxWhatsApp": "Hi Hunger Warriors! I'd like to give more than ₹2,00,000. Can we talk about how?"
     },
     "upiId": "ismailjalotrawala@okicici",
     "upiName": "Hunger Warriors",
@@ -376,9 +390,16 @@
     "afterDonating": "The moment your gift reaches us, you'll get a personal thank-you and your receipt on WhatsApp. After the next drive, we'll send you a photo of the smiles your kindness made possible. This is your meal on their plate.",
     "taxNote": "",
     "bankIntro": "Prefer to give straight from your bank account? Use NEFT, IMPS or RTGS from your net banking or bank app.",
-    "bankMissing": "Our bank details will be up here shortly. Until then, message us on WhatsApp and we'll share them with you.",
-    "_bankNote": "Fill these in to show the bank transfer option. Leave accountNumber empty to hide the details.",
-    "bank": {"accountName": "", "accountNumber": "", "ifsc": "", "bank": "", "branch": "", "accountType": "Savings"},
+    "bankMissing": "Our bank details are being finalised. Until then, message us on WhatsApp and we'll share them with you, or give by UPI.",
+    "_bankNote": "Replace the placeholder values with the real details and set placeholder to false. While placeholder is true, the details are shown greyed out with a 'coming soon' note and no copy buttons.",
+    "bank": {
+      "placeholder": true,
+      "accountName": "Beneficiary name",
+      "accountNumber": "XXXX XXXX XXXX",
+      "ifsc": "XXXX0000000",
+      "bankBranch": "Bank name, Branch",
+      "accountType": ""
+    },
     "membership": {
       "tabLabel": "Become a member",
       "badge": "",
@@ -386,7 +407,7 @@
       "heading": "Feed someone, *every month.*",
       "intro": "Members are the heartbeat of our drives. For ₹500 a month, you make sure the food is there, drive after drive, no matter what.",
       "perks": [
-        "10 hot meals every month, 120 meals a year",
+        "5 meals every month, 70 meals a year",
         "Your receipt and a photo from the drive, every month on WhatsApp",
         "A personal welcome as a Hunger Warrior member",
         "Pause or cancel anytime, straight from your UPI app"
@@ -397,7 +418,9 @@
       "autopayNote": "You approve it once with your UPI PIN. ₹500 is then given automatically each month, and you can pause or stop it anytime in PhonePe or any UPI app.",
       "fallbackMessage": "Hi Hunger Warriors! I'd like to become a monthly member and give ₹500 every month. Please help me set up AutoPay.",
       "bankOption": "Prefer your bank? Set up a monthly standing instruction for ₹500 to our account (see Bank transfer) and drop us a WhatsApp so we can welcome you."
-    }
+    },
+    "upiAppsLabel": "Works with every UPI app",
+    "bankRemarks": "In the remarks, write \"Donation\" and your name. Then send us the transaction reference (UTR) on WhatsApp so we can send your receipt."
   },
 
   "reach": {
@@ -414,8 +437,8 @@
       {"name": "Ganesh Chandra Avenue & S.N. Banerjee Road", "type": "sunday", "lat": 22.5652, "lng": 88.358},
       {"name": "Armenian Ghat", "type": "sunday", "lat": 22.5786, "lng": 88.3466, "gallery": "2021-03-20-armenian-ghat"},
       {"name": "G.D. Hospital, Dharmatala", "type": "sunday", "lat": 22.5629, "lng": 88.3546},
-      {"name": "Park Circus Maidan", "type": "relief", "lat": 22.5419, "lng": 88.3651},
-      {"name": "Topsia (opposite Al-Anwar)", "type": "relief", "lat": 22.5396, "lng": 88.3846},
+      {"name": "Park Circus Maidan", "type": "sunday", "lat": 22.5419, "lng": 88.3651},
+      {"name": "Topsia (opposite Al-Anwar)", "type": "sunday", "lat": 22.5396, "lng": 88.3846},
       {"name": "Sandeshkhali, Sundarbans", "type": "relief", "lat": 22.364, "lng": 88.885, "gallery": "2021-06-26-sandeshkhali"},
       {"name": "Gosaba, Sundarbans", "type": "relief", "lat": 22.165, "lng": 88.807, "gallery": "2026-08-23-sundarbans-boat"},
       {"name": "Pakhirala, Sundarbans", "type": "relief", "lat": 22.126, "lng": 88.838, "gallery": "2026-08-23-sundarbans-boat"}
@@ -510,6 +533,7 @@
           {
             "list": [
               "Donations are voluntary gifts. Nothing is provided in return, and a donation does not create any business relationship.",
+              "You can donate by UPI using any UPI app, including PhonePe, Google Pay, Paytm, BHIM, Amazon Pay, CRED, WhatsApp Pay, MobiKwik, Navi, Super.money or your bank's own UPI app, or by bank transfer (NEFT, IMPS or RTGS).",
               "Donations are used for food, ration kits, relief supplies and the direct costs of running drives. We may direct funds to wherever the need is greatest at the time, including relief work.",
               "Receipts are sent on WhatsApp. If you haven't received yours within 48 hours, send us your transaction reference.",
               "Tax: unless your receipt clearly says otherwise, donations are not eligible for tax deduction (for example under Section 80G of the Income Tax Act, 1961).",
