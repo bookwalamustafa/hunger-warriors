@@ -23,12 +23,15 @@ Everything is in **`content/site.json`**. The parts you'll edit most (upcoming d
 ### Upcoming drives
 - Add each planned Sunday drive to `upcoming.sundayDrives` and each relief drive to `upcoming.reliefDrives` (copy the `_template`).
 - Past dates disappear on their own.
+- When nothing is listed, the section shows a "Stay tuned" card instead (`upcoming.stayTuned`).
 - A drive within the next 7 days also pops up as a reminder on the home page (`upcoming.reminder.daysBefore`). Once a visitor closes it, it stays closed for them.
 
 ### Adding a finished drive (the "Our legacy" section)
 1. Create a folder: `assets/img/drives/sunday/2026-10-04-sealdah/` (or `drives/relief/...`).
 2. Put the photos in it, resized to about 1400px on the long side.
 3. Copy `_sundayTemplate` (or `_reliefTemplate`) into `pastDrives.sundayDrives` (or `reliefDrives`), set `photoFolder` to the folder and list each photo `file` with a short description. The first photo is the cover.
+
+No photos? Leave out `photoFolder` and `photos`; the drive still appears in Our legacy. Don't know the exact date? Put a best guess in `date` (for ordering) and add `"dateLabel": "2021"` to show instead.
 
 The drive also shows up automatically as an album on the gallery page.
 

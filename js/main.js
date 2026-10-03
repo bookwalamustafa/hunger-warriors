@@ -186,7 +186,14 @@ function renderUpcoming(up) {
   const first = up.showFirst || 5;
 
   if (!drives.length) {
-    $("#schedule").innerHTML = `<li class="schedule-empty">No special drives announced right now. Join us any Sunday!</li>`;
+    const t = up.stayTuned || {};
+    $("#schedule").innerHTML = `
+      <li class="stay-tuned reveal">
+        <span class="st-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V9h14v11zM7 11h5v5H7z"/></svg></span>
+        <h3>${esc(t.title || "Stay tuned")}</h3>
+        <p>${esc(t.text || "Our next drives are being planned. Check back soon.")}</p>
+        <a class="btn btn-green" href="${waLink(t.message || "Hi Hunger Warriors! Please let me know when your next drive is planned.")}" target="_blank" rel="noopener">${esc(t.button || "Get drive updates on WhatsApp")}</a>
+      </li>`;
     return;
   }
 
@@ -273,7 +280,7 @@ function setupReminder(up) {
 
 /* ---------- Legacy (past drives) ---------- */
 const typeTag = (type, long) =>
-  `<span class="tag ${type === "relief" ? "tag-relief" : ""}">${type === "relief" ? (long ? "Relief drive" : "Relief") : long ? "Sunday drive" : "Sunday"}</span>`;
+  `<span class="tag ${type === "relief" ? "tag-relief" : ""}">${type === "relief" ? (long ? "Relief drive" : "Relief") : "Food drive"}</span>`;
 
 // Sunday + relief lists → one list, newest first, with full photo paths
 function pastList(past) {
@@ -295,7 +302,7 @@ function renderPast(past) {
       const cover = d.photos?.[0];
       const more = (d.photos?.length || 0) - 1;
       return `
-      <article class="past-card reveal" ${i >= first ? "data-extra hidden" : ""}>
+      <article class="past-card ${cover ? "" : "past-card-plain"} past-${esc(d.type)} reveal" ${i >= first ? "data-extra hidden" : ""}>
         ${
           cover
             ? `<button class="past-photo" type="button" data-drive="${i}" aria-label="View ${d.photos.length} photos from ${esc(d.title)}">
@@ -305,7 +312,7 @@ function renderPast(past) {
             : ""
         }
         <div class="past-body">
-          <p class="past-meta">${typeTag(d.type)} ${esc(fmt(d.date, { day: "numeric", month: "long", year: "numeric" }))}</p>
+          <p class="past-meta">${typeTag(d.type)} ${esc(d.dateLabel || fmt(d.date, { day: "numeric", month: "long", year: "numeric" }))}</p>
           <h3>${esc(d.title)}</h3>
           <p class="past-loc">${esc(d.location)}</p>
           <p>${esc(d.summary)}</p>
@@ -365,7 +372,7 @@ function renderAlbums(past) {
         <div class="album-head">
           ${typeTag(d.type, true)}
           <h3>${esc(d.title)}</h3>
-          <p>${esc(fmt(d.date, { day: "numeric", month: "long", year: "numeric" }))} · ${esc(d.location)}</p>
+          <p>${esc(d.dateLabel || fmt(d.date, { day: "numeric", month: "long", year: "numeric" }))} · ${esc(d.location)}</p>
         </div>
         <div class="album-grid">
           ${d.photos
@@ -654,7 +661,9 @@ function renderReach(reach) {
   });
 
   // "Kolkata" view frames the Sunday drive dots; "West Bengal" frames the whole state
-  const city = places.filter((p) => p.type !== "relief").map((p) => [p.lat, p.lng]);
+  // Kolkata view: every dot within ~20 km of home base (food and relief drives in the city)
+  const base = places.find((p) => p.type === "base") || places[0];
+  const city = places.filter((p) => Math.hypot(p.lat - base.lat, p.lng - base.lng) < 0.18).map((p) => [p.lat, p.lng]);
   let stateBounds = null;
   let view = "state";
   const show = (v) => {

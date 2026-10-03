@@ -16,29 +16,7 @@
     "reminder": {"daysBefore": 7, "joinButton": "Count me in", "detailsButton": "See details"},
     "_howToAdd": "Add each Sunday drive to sundayDrives and each relief drive to reliefDrives (copy the matching _template). Past dates disappear on their own. A drive happening within the next reminder.daysBefore days also pops up as a reminder on the home page.",
     "_sundayTemplate": {"date": "YYYY-MM-DD", "time": "8:00 AM", "title": "Sunday Food Drive", "location": "Place, Kolkata", "note": "One line about what we will do."},
-    "sundayDrives": [
-      {
-        "date": "2026-10-04",
-        "time": "8:00 AM",
-        "title": "Sunday Food Drive",
-        "location": "Sealdah Station area",
-        "note": "Hot meals and water for families living around the station."
-      },
-      {
-        "date": "2026-10-11",
-        "time": "8:00 AM",
-        "title": "Sunday Food Drive",
-        "location": "SSKM Hospital, Bhowanipore",
-        "note": "Snacks, fruit and water for patients' families waiting outside."
-      },
-      {
-        "date": "2026-10-18",
-        "time": "8:00 AM",
-        "title": "Sunday Food Drive",
-        "location": "Zakaria Street",
-        "note": "Hot meals for people living on the street."
-      }
-    ],
+    "sundayDrives": [],
     "_reliefTemplate": {
       "date": "YYYY-MM-DD",
       "time": "6:00 AM",
@@ -46,24 +24,22 @@
       "location": "Village, District",
       "note": "What we are collecting and how people can help."
     },
-    "reliefDrives": [
-      {
-        "date": "2026-10-25",
-        "time": "6:00 AM",
-        "title": "Flood Relief Drive",
-        "location": "Gosaba, Sundarbans",
-        "note": "Collecting rice, dal, tarpaulin sheets and drinking water now. Donate supplies or join the team."
-      }
-    ]
+    "reliefDrives": [],
+    "stayTuned": {
+      "title": "Stay tuned",
+      "text": "Our next drives are being planned right now. As soon as a date is set, it'll appear here, and we'll share it on WhatsApp first.",
+      "button": "Get drive updates on WhatsApp",
+      "message": "Hi Hunger Warriors! Please let me know when your next drive is planned."
+    }
   },
 
   "pastDrives": {
     "eyebrow": "The archives",
     "heading": "Our *legacy*",
-    "intro": "Every drive leaves a story behind. These are some of ours: the streets we've walked, the villages we've reached, and the families who welcomed us. We add to this archive after every drive.",
+    "intro": "It started with 47 food packets on 19 November 2020. These are the drives that followed: the streets we've walked, the villages we've reached, and the families who welcomed us. We add to this archive after every drive.",
     "showFirst": 4,
     "showAllButton": "Open the full archive",
-    "_howToAdd": "1) Make a folder for the drive: assets/img/drives/sunday/YYYY-MM-DD-place/ (or drives/relief/...). 2) Put its photos in that folder. 3) Copy the matching _template into sundayDrives or reliefDrives, set photoFolder to that folder and list each photo file. The first photo is the cover. Order does not matter; the site sorts by date.",
+    "_howToAdd": "1) Make a folder for the drive: assets/img/drives/sunday/YYYY-MM-DD-place/ (or drives/relief/...). 2) Put its photos in that folder. 3) Copy the matching _template into sundayDrives or reliefDrives, set photoFolder to that folder and list each photo file. The first photo is the cover. Order does not matter; the site sorts by date. If you don't know the exact date, put your best guess in date (used for ordering) and add dateLabel, e.g. \"2021\", which is shown instead.",
     "_sundayTemplate": {
       "date": "YYYY-MM-DD",
       "title": "What we did",
@@ -80,84 +56,78 @@
     },
     "sundayDrives": [
       {
-        "date": "2026-09-27",
-        "title": "Snacks & fruit outside SSKM Hospital",
-        "location": "Bhowanipore, Kolkata",
-        "summary": "Families of patients often wait outside the hospital for days. We handed out biscuits, bananas and water to everyone at the gate.",
+        "date": "2021-06-05",
+        "title": "100 packets near G.D. Hospital",
+        "location": "G.D. Hospital, Dharmatala",
+        "summary": "100 food packets handed out near G.D. Hospital in Dharmatala.",
         "stats": [
-          {"value": "450", "label": "people served"},
-          {"value": "22", "label": "volunteers"}
-        ],
-        "photoFolder": "assets/img/drives/sunday/2026-09-27-sskm-hospital/",
-        "photos": [
-          {"file": "sskm-hospital-snacks.jpg", "alt": "Volunteers handing out snacks at the SSKM Hospital gate"},
-          {"file": "sskm-hospital-boxes.jpg", "alt": "Boxes of biscuits being opened on scooters"},
-          {"file": "sskm-hospital-bananas.jpg", "alt": "Bananas being handed out beside a car outside the hospital"}
+          {"value": "100", "label": "food packets"}
         ]
       },
       {
-        "date": "2026-09-20",
-        "title": "Fruit & snacks at Kalighat",
-        "location": "Kalighat, Kolkata",
-        "summary": "A morning drive on the lanes of Kalighat with bananas, biscuits and packed snacks for families and children.",
-        "stats": [
-          {"value": "300", "label": "people served"},
-          {"value": "15", "label": "volunteers"}
-        ],
-        "photoFolder": "assets/img/drives/sunday/2026-09-20-kalighat/",
+        "date": "2021-03-20",
+        "title": "Food packets at Armenian Ghat",
+        "location": "Armenian Ghat, Kolkata",
+        "summary": "Meal packets handed out at Armenian Ghat, where families live along the railway line.",
+        "stats": [],
+        "photoFolder": "assets/img/drives/sunday/2021-03-20-armenian-ghat/",
         "photos": [
-          {"file": "kalighat-fruit-snacks.jpg", "alt": "Volunteers handing out fruit and snacks in Kalighat"},
-          {"file": "kalighat-distribution.jpg", "alt": "People gathered for fruit beside a parked car"}
+          {"file": "meal-packets-ready.jpg", "alt": "Meal packets stacked and ready to go"},
+          {"file": "railside-settlement.jpg", "alt": "Homes along the railway line near Armenian Ghat"}
         ]
       },
       {
-        "date": "2026-09-13",
-        "title": "Hot meals on Zakaria Street",
-        "location": "Zakaria Street, Central Kolkata",
-        "summary": "Freshly cooked veg biryani, packed into boxes that morning and served to people living on the street.",
+        "date": "2021-02-01",
+        "dateLabel": "2021",
+        "_dateNote": "Exact date unknown; date is only used to keep it in order.",
+        "title": "Biryani on Ganesh Chandra Avenue",
+        "location": "Ganesh Chandra Avenue & S.N. Banerjee Road",
+        "summary": "100 packets of biryani handed out along Ganesh Chandra Avenue and S.N. Banerjee Road.",
         "stats": [
-          {"value": "600", "label": "meals"},
-          {"value": "20", "label": "volunteers"}
-        ],
-        "photoFolder": "assets/img/drives/sunday/2026-09-13-zakaria-street/",
-        "photos": [
-          {"file": "zakaria-street-meals.jpg", "alt": "Many hands reaching for meal boxes on Zakaria Street"},
-          {"file": "zakaria-street-hands.jpg", "alt": "Volunteers handing out food boxes"},
-          {"file": "meal-boxes-packed.jpg", "alt": "Rows of packed meal boxes"},
-          {"file": "veg-biryani-box.jpg", "alt": "A box of freshly cooked veg biryani"}
+          {"value": "100", "label": "biryani packets"}
         ]
       },
       {
-        "date": "2026-08-09",
-        "title": "Meals on Kyd Street",
-        "location": "Kyd Street, Park Street area",
-        "summary": "A long line formed before we'd even set up. Bowls of hot food for everyone who came, adults and children alike.",
+        "date": "2021-01-14",
+        "title": "200 food packets in New Market",
+        "location": "New Market area",
+        "summary": "200 food packets handed out across the New Market area.",
         "stats": [
-          {"value": "500", "label": "meals"},
-          {"value": "18", "label": "volunteers"}
-        ],
-        "photoFolder": "assets/img/drives/sunday/2026-08-09-kyd-street/",
-        "photos": [
-          {"file": "kyd-street-queue.jpg", "alt": "A queue of people waiting for food on Kyd Street"},
-          {"file": "kyd-street-serving.jpg", "alt": "Volunteers serving food at a table"},
-          {"file": "kyd-street-bowls.jpg", "alt": "Volunteers filling bowls with food"},
-          {"file": "kyd-street-waiting.jpg", "alt": "People waiting along the pavement"}
+          {"value": "200", "label": "food packets"}
         ]
       },
       {
-        "date": "2026-07-26",
-        "title": "Meal packets across the city",
-        "location": "Various locations, Kolkata",
-        "summary": "Volunteers on scooters took packed meals to people sleeping on pavements and at roadside settlements.",
+        "date": "2021-01-07",
+        "title": "Food packets on Kyd Street",
+        "location": "GK Sports, Kyd Street",
+        "summary": "Food packets handed out at GK Sports on Kyd Street.",
+        "stats": []
+      },
+      {
+        "date": "2020-12-24",
+        "title": "Christmas Eve on Sun Yat Sen Street",
+        "location": "Sun Yat Sen Street",
+        "summary": "Our third food distribution: 200 food packets on Sun Yat Sen Street on Christmas Eve.",
         "stats": [
-          {"value": "400", "label": "meal packets"},
-          {"value": "12", "label": "volunteers"}
-        ],
-        "photoFolder": "assets/img/drives/sunday/2026-07-26-meal-packets-city/",
-        "photos": [
-          {"file": "street-meal-handover.jpg", "alt": "A volunteer handing a meal packet to a man"},
-          {"file": "meal-packets-car.jpg", "alt": "A car boot full of packed meals"},
-          {"file": "ration-kits-packed.jpg", "alt": "Packed ration kits ready to go"}
+          {"value": "200", "label": "food packets"}
+        ]
+      },
+      {
+        "date": "2020-12-03",
+        "title": "100 food packets on Central Avenue",
+        "location": "Indian Airlines, Central Avenue",
+        "summary": "Our second food distribution: 100 food packets near the Indian Airlines office on Central Avenue.",
+        "stats": [
+          {"value": "100", "label": "food packets"}
+        ]
+      },
+      {
+        "date": "2020-11-19",
+        "title": "Where it all began",
+        "location": "Kolkata",
+        "summary": "Our very first drive: 47 food packets for people on Kolkata’s streets. Every drive since started here.",
+        "stats": [
+          {"value": "47", "label": "food packets"}
         ]
       }
     ],
@@ -204,29 +174,33 @@
         ]
       },
       {
-        "date": "2026-06-14",
-        "title": "Cyclone relief in South 24 Parganas",
-        "location": "South 24 Parganas",
-        "summary": "The cyclone flattened mud homes and flooded fields. We reached the worst-hit villages with ration kits, drinking water and snacks for the children.",
+        "date": "2021-06-26",
+        "title": "Cyclone Yaas relief in Sandeshkhali",
+        "location": "Sandeshkhali, Sundarbans",
+        "summary": "After Cyclone Yaas ravaged the Sundarbans, we took 200 packets of dry rations to Sandeshkhali. Each packet held 13 essentials: rice, onion, potato, atta, mustard oil, masoor dal, salt, turmeric, chilli, soya chunks, muri, Maggi and biscuits. Rations and transport came to over ₹70,000, about ₹350 a packet.",
         "stats": [
-          {"value": "500", "label": "families"},
-          {"value": "3,000", "label": "water bottles"},
-          {"value": "35", "label": "volunteers"}
+          {"value": "200", "label": "ration packets"},
+          {"value": "13", "label": "essentials in each"}
         ],
-        "photoFolder": "assets/img/drives/relief/2026-06-14-cyclone-south-24-parganas/",
+        "photoFolder": "assets/img/drives/relief/2021-06-26-sandeshkhali/",
         "photos": [
-          {"file": "cyclone-relief-banner.jpg", "alt": "Volunteers handing out water under the Hunger Warriors banner"},
-          {"file": "cyclone-damaged-house.jpg", "alt": "A house destroyed by the cyclone"},
-          {"file": "cyclone-relief-kits-water.jpg", "alt": "Ration kits and water being handed out"},
-          {"file": "cyclone-relief-kits-pile.jpg", "alt": "A pile of ration kits beside a flooded field"},
-          {"file": "cyclone-relief-children-snacks.jpg", "alt": "Children receiving snacks from volunteers"},
-          {"file": "cyclone-relief-water-bottles.jpg", "alt": "A volunteer handing a water bottle to a woman"},
-          {"file": "cyclone-relief-riverside.jpg", "alt": "Relief handed over beside the water"},
-          {"file": "cyclone-damaged-hut.jpg", "alt": "A damaged hut after the cyclone"},
-          {"file": "cyclone-relief-handover.jpg", "alt": "Volunteers handing over kits and water"},
-          {"file": "cyclone-relief-supplies.jpg", "alt": "Relief supplies laid out for distribution"},
-          {"file": "cyclone-relief-embankment.jpg", "alt": "Relief handed out along the embankment"}
+          {"file": "relief-boat-loaded.jpg", "alt": "A boat loaded with relief supplies at the river bank"},
+          {"file": "loading-boat-in-rain.jpg", "alt": "Volunteers loading relief supplies onto the boat in the rain"},
+          {"file": "dry-ration-items.jpg", "alt": "Dry ration items being sorted into packets"},
+          {"file": "village-distribution.jpg", "alt": "Villagers gathered as volunteers hand out supplies"},
+          {"file": "water-handover.jpg", "alt": "A volunteer handing a bottle of water to a woman"},
+          {"file": "handing-out-to-children.jpg", "alt": "Volunteers handing out supplies to children by a pond"},
+          {"file": "relief-food-handover.jpg", "alt": "Volunteers handing out food to a crowd"}
         ]
+      },
+      {
+        "date": "2021-06-06",
+        "dateLabel": "2021",
+        "_dateNote": "Exact date unknown; date is only used to keep it in order.",
+        "title": "Breakfast for Park Circus and Topsia",
+        "location": "Park Circus Maidan & the bustee opposite Al-Anwar, Topsia",
+        "summary": "Breakfast packets for families at Park Circus Maidan and in the bustee opposite Al-Anwar in Topsia.",
+        "stats": []
       }
     ]
   },
@@ -238,24 +212,44 @@
     "highlightsHeading": "Highlights",
     "albumsHeading": "Albums from our *drives*",
     "photos": [
-      {
-        "src": "assets/img/drives/relief/2026-06-14-cyclone-south-24-parganas/cyclone-relief-banner.jpg",
-        "alt": "Volunteers handing out water under the Hunger Warriors banner"
-      },
-      {"src": "assets/img/drives/sunday/2026-08-09-kyd-street/kyd-street-queue.jpg", "alt": "A queue for food on Kyd Street"},
-      {
-        "src": "assets/img/drives/relief/2026-08-23-sundarbans-boat/sundarbans-villagers-queue.jpg",
-        "alt": "Villagers queueing beside the relief boat"
-      },
-      {"src": "assets/img/drives/relief/2026-08-23-sundarbans-boat/sundarbans-kit-handover.jpg", "alt": "A volunteer handing over a ration kit"},
-      {"src": "assets/img/drives/relief/2026-06-14-cyclone-south-24-parganas/cyclone-relief-children-snacks.jpg", "alt": "Children receiving snacks"},
-      {"src": "assets/img/drives/sunday/2026-09-13-zakaria-street/zakaria-street-meals.jpg", "alt": "Hands reaching for meal boxes"},
-      {"src": "assets/img/drives/sunday/2026-09-13-zakaria-street/veg-biryani-box.jpg", "alt": "Freshly cooked veg biryani"},
+      {"src": "assets/img/general/young-volunteers-handout.jpg", "alt": "Young volunteers handing out food on the street"},
+      {"src": "assets/img/general/team-clothes-distribution.jpg", "alt": "The team with clothes and blankets ready to hand out in a village"},
+      {"src": "assets/img/general/clothes-handover.jpg", "alt": "A volunteer handing clothes to a girl"},
+      {"src": "assets/img/general/ration-bag-handover.jpg", "alt": "A volunteer handing a ration bag to a woman"},
+      {"src": "assets/img/general/women-waiting-village.jpg", "alt": "Women waiting with tokens for ration bags"},
+      {"src": "assets/img/general/village-distribution-walk.jpg", "alt": "Volunteers walking to a village distribution point"},
+      {"src": "assets/img/general/ration-bags-packed.jpg", "alt": "Ration bags packed and ready to go"},
+      {"src": "assets/img/general/serving-hot-food.jpg", "alt": "Volunteers serving hot food from large pots"},
+      {"src": "assets/img/general/cyclone-relief-banner.jpg", "alt": "Volunteers handing out water under the Hunger Warriors banner"},
+      {"src": "assets/img/general/kyd-street-queue.jpg", "alt": "A queue for food on Kyd Street"},
+      {"src": "assets/img/general/cyclone-relief-children-snacks.jpg", "alt": "Children receiving snacks"},
+      {"src": "assets/img/general/zakaria-street-meals.jpg", "alt": "Hands reaching for meal boxes"},
+      {"src": "assets/img/general/veg-biryani-box.jpg", "alt": "Freshly cooked veg biryani"},
       {"src": "assets/img/general/relief-boat-loading.jpg", "alt": "Loading relief supplies onto a boat"},
-      {"src": "assets/img/drives/sunday/2026-09-27-sskm-hospital/sskm-hospital-snacks.jpg", "alt": "Snacks at the SSKM Hospital gate"},
+      {"src": "assets/img/general/sskm-hospital-snacks.jpg", "alt": "Snacks at the SSKM Hospital gate"},
       {"src": "assets/img/general/volunteers-tea-break.jpg", "alt": "Volunteers on a tea break"},
       {"src": "assets/img/general/sundarbans-team-lunch.jpg", "alt": "The team sharing lunch after a drive"},
-      {"src": "assets/img/drives/relief/2026-06-14-cyclone-south-24-parganas/cyclone-damaged-hut.jpg", "alt": "A hut damaged by the cyclone"}
+      {"src": "assets/img/general/cyclone-damaged-hut.jpg", "alt": "A hut damaged by the cyclone"},
+      {"src": "assets/img/general/sskm-hospital-boxes.jpg", "alt": "Boxes of biscuits being opened on scooters"},
+      {"src": "assets/img/general/sskm-hospital-bananas.jpg", "alt": "Bananas being handed out beside a car outside the hospital"},
+      {"src": "assets/img/general/kalighat-fruit-snacks.jpg", "alt": "Volunteers handing out fruit and snacks in Kalighat"},
+      {"src": "assets/img/general/kalighat-distribution.jpg", "alt": "People gathered for fruit beside a parked car"},
+      {"src": "assets/img/general/zakaria-street-hands.jpg", "alt": "Volunteers handing out food boxes"},
+      {"src": "assets/img/general/meal-boxes-packed.jpg", "alt": "Rows of packed meal boxes"},
+      {"src": "assets/img/general/kyd-street-serving.jpg", "alt": "Volunteers serving food at a table"},
+      {"src": "assets/img/general/kyd-street-bowls.jpg", "alt": "Volunteers filling bowls with food"},
+      {"src": "assets/img/general/kyd-street-waiting.jpg", "alt": "People waiting along the pavement"},
+      {"src": "assets/img/general/street-meal-handover.jpg", "alt": "A volunteer handing a meal packet to a man"},
+      {"src": "assets/img/general/meal-packets-car.jpg", "alt": "A car boot full of packed meals"},
+      {"src": "assets/img/general/ration-kits-packed.jpg", "alt": "Packed ration kits ready to go"},
+      {"src": "assets/img/general/cyclone-damaged-house.jpg", "alt": "A house destroyed by the cyclone"},
+      {"src": "assets/img/general/cyclone-relief-kits-water.jpg", "alt": "Ration kits and water being handed out"},
+      {"src": "assets/img/general/cyclone-relief-kits-pile.jpg", "alt": "A pile of ration kits beside a flooded field"},
+      {"src": "assets/img/general/cyclone-relief-water-bottles.jpg", "alt": "A volunteer handing a water bottle to a woman"},
+      {"src": "assets/img/general/cyclone-relief-riverside.jpg", "alt": "Relief handed over beside the water"},
+      {"src": "assets/img/general/cyclone-relief-handover.jpg", "alt": "Volunteers handing over kits and water"},
+      {"src": "assets/img/general/cyclone-relief-supplies.jpg", "alt": "Relief supplies laid out for distribution"},
+      {"src": "assets/img/general/cyclone-relief-embankment.jpg", "alt": "Relief handed out along the embankment"}
     ]
   },
 
@@ -313,7 +307,7 @@
     "_imagesNote": "Photos in the Our story slider. The first is the founders' photo (shown first); visitors use the arrows or dots to see the rest. These are placeholders: replace them with real photos and add a caption to the founders' photo.",
     "images": [
       {"src": "assets/img/general/volunteers-smiling.jpg", "alt": "Founders Mufaddal Bookwala and Hasnain Ukani", "caption": ""},
-      {"src": "assets/img/general/volunteers-tea-break.jpg", "alt": "Volunteers on a tea break during a drive"},
+      {"src": "assets/img/general/young-volunteers-handout.jpg", "alt": "Young volunteers handing out food on the street"},
       {"src": "assets/img/general/sundarbans-team-lunch.jpg", "alt": "The team sharing lunch after a relief drive"}
     ]
   },
@@ -326,14 +320,14 @@
         "label": "Sunday mornings",
         "title": "Sunday food drives",
         "text": "On Sunday mornings, we plan a drive from start to finish: arranging where the food comes from, who collects it and how it gets there, handing it out on the streets, outside hospitals and in the city's poorest neighbourhoods, then a debrief so the next one is even better.",
-        "image": "assets/img/drives/sunday/2026-08-09-kyd-street/kyd-street-serving.jpg",
+        "image": "assets/img/general/kyd-street-serving.jpg",
         "imageAlt": "Volunteers serving hot food on Kyd Street"
       },
       {
         "label": "When disaster strikes",
         "title": "Relief drives",
         "text": "After cyclones and floods we organise ration kits, drinking water and supplies, and get them to the worst-hit villages, even when that means going by boat.",
-        "image": "assets/img/drives/relief/2026-06-14-cyclone-south-24-parganas/cyclone-relief-kits-water.jpg",
+        "image": "assets/img/general/cyclone-relief-kits-water.jpg",
         "imageAlt": "Volunteers handing out ration kits and water after a cyclone"
       }
     ]
@@ -410,16 +404,21 @@
     "eyebrow": "Our reach",
     "heading": "Rooted in Kolkata. *Reaching all of Bengal.*",
     "intro": "",
-    "_note": "Each place is a dot on the map. type is base, sunday or relief. gallery is the album (photo folder name) that clicking the dot opens. Find lat/lng by right-clicking a spot on Google Maps and clicking the numbers.",
+    "_note": "Each place is a dot on the map. type is base, sunday (food drives) or relief. gallery is the album (photo folder name) that clicking the dot opens; leave it out if the drive has no photos. Locations are approximate: right-click a spot on Google Maps to get exact lat/lng.",
     "places": [
       {"name": "Kolkata", "type": "base", "lat": 22.5726, "lng": 88.3639},
-      {"name": "SSKM Hospital, Bhowanipore", "type": "sunday", "lat": 22.5397, "lng": 88.3436, "gallery": "2026-09-27-sskm-hospital"},
-      {"name": "Kalighat", "type": "sunday", "lat": 22.5205, "lng": 88.3463, "gallery": "2026-09-20-kalighat"},
-      {"name": "Zakaria Street", "type": "sunday", "lat": 22.5797, "lng": 88.3557, "gallery": "2026-09-13-zakaria-street"},
-      {"name": "Kyd Street", "type": "sunday", "lat": 22.553, "lng": 88.354, "gallery": "2026-08-09-kyd-street"},
+      {"name": "Indian Airlines, Central Avenue", "type": "sunday", "lat": 22.5667, "lng": 88.3568},
+      {"name": "Sun Yat Sen Street", "type": "sunday", "lat": 22.5737, "lng": 88.3537},
+      {"name": "GK Sports, Kyd Street", "type": "sunday", "lat": 22.5531, "lng": 88.3536},
+      {"name": "New Market", "type": "sunday", "lat": 22.56, "lng": 88.3509},
+      {"name": "Ganesh Chandra Avenue & S.N. Banerjee Road", "type": "sunday", "lat": 22.5652, "lng": 88.358},
+      {"name": "Armenian Ghat", "type": "sunday", "lat": 22.5786, "lng": 88.3466, "gallery": "2021-03-20-armenian-ghat"},
+      {"name": "G.D. Hospital, Dharmatala", "type": "sunday", "lat": 22.5629, "lng": 88.3546},
+      {"name": "Park Circus Maidan", "type": "relief", "lat": 22.5419, "lng": 88.3651},
+      {"name": "Topsia (opposite Al-Anwar)", "type": "relief", "lat": 22.5396, "lng": 88.3846},
+      {"name": "Sandeshkhali, Sundarbans", "type": "relief", "lat": 22.364, "lng": 88.885, "gallery": "2021-06-26-sandeshkhali"},
       {"name": "Gosaba, Sundarbans", "type": "relief", "lat": 22.165, "lng": 88.807, "gallery": "2026-08-23-sundarbans-boat"},
-      {"name": "Pakhirala, Sundarbans", "type": "relief", "lat": 22.126, "lng": 88.838, "gallery": "2026-08-23-sundarbans-boat"},
-      {"name": "South 24 Parganas", "type": "relief", "lat": 22.164, "lng": 88.432, "gallery": "2026-06-14-cyclone-south-24-parganas"}
+      {"name": "Pakhirala, Sundarbans", "type": "relief", "lat": 22.126, "lng": 88.838, "gallery": "2026-08-23-sundarbans-boat"}
     ],
     "viewState": "West Bengal",
     "viewCity": "Kolkata"
